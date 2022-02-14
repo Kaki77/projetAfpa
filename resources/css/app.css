@@ -1,0 +1,10 @@
+.login-container{
+    margin:0 auto;
+    width: 50%;
+    text-align: center;
+}
+
+input{
+    margin-top:7px;
+    margin-bottom: 7px;
+}
