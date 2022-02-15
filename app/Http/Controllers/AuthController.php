@@ -16,15 +16,14 @@ class AuthController extends Controller
             'password'=>['required']
         ]);
         if($validator->fails()){
-            return $this->handleError($validator->errors());
+            return $this->handleError($validator->errors(),[],'400');
         }
         if(Auth::attempt($credentials)){
             $request->session()->regenerate();
-
             return $this->handleResponse([],'User logged-in');
         }
         else{
-            $this->handleError('Credentials do not match');
+            return $this->handleError('Credentials do not match',[],'401');
         }
     }
 
@@ -43,7 +42,7 @@ class AuthController extends Controller
             'confirm_password'=>['required','same:password']
         ]);
         if($validator->fails()){
-            return $this->handleError($validator->errors());
+            return $this->handleError($validator->errors(),[],'400');
         }
 
         $input['password']=bcrypt($input['password']);
