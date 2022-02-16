@@ -1,14 +1,4 @@
-import React from 'react'
-
 function ControlledInput(props){
-
-    function updateBorder(element){
-        if(element.classList.contains('border-red-500'))
-        {
-            element.classList.remove('border-red-500')
-            element.classList.add('border-blue-500')
-        }
-    }
 
     return(
         <div className='my-5'>
@@ -22,14 +12,14 @@ function ControlledInput(props){
                 placeholder={props.title}
                 value={props.value}
                 onChange={e=>props.setFunction(e.target.value)}
-                onClick={event=>updateBorder(event.target)}
                 />
             </label>
-            {props.errors.map(e=>
-                <p className='text-sm text-red-400 italic'>
-                    {e}
+            {props.errors.map((element,index)=>
+                <p key={index} className='text-sm text-red-400 italic'>
+                    {element}
                 </p>
-            )}
+                )
+            }
         </div>
     )
 }

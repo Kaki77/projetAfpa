@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import ControlledInput from './ControlledInput'
-import Link from './Link'
 import apiClient from '../axios'
+import ControlledInput from './ControlledInput'
+import Goto from './Goto'
 
-function Example() {
+function Login(props) {
 
     const [mail, setMail] = useState('')
     const [password, setPassword] = useState('')
@@ -11,6 +11,7 @@ function Example() {
     const [errorPass, setErrorPass] = useState([])
 
     function login(event){
+        props.loading(true)
         event.preventDefault()
         apiClient.get('sanctum/csrf-cookie')
             .then(response=>{
@@ -25,13 +26,16 @@ function Example() {
                 })
                 .catch(error=>{
                     if(error.response.status=='400'){
-                        setErrorMail(error.response.data.message.email)
-                        setErrorPass(error.response.data.message.password)
+                        error.response.data.message.email ? setErrorMail(error.response.data.message.email) : setErrorMail([])
+                        error.response.data.message.password ? setErrorPass(error.response.data.message.password) : setErrorPass([])
                     } 
                     else if(error.response.status=='401'){
                         setErrorMail([error.response.data.message])
                     }
                 })
+                .finally(()=>{
+                    props.loading(false)
+                })     
             })
     }
 
@@ -42,10 +46,10 @@ function Example() {
             <ControlledInput title="Password" type="password" value={password} setFunction={setPassword} errors={errorPass}/>
             <button className="text-xl w-24 mb-5 py-1 bg-teal-400 text-white rounded hover:bg-teal-600 transition" type="submit" onClick={login}>Log in</button>
             <br/>
-            <Link>Don't have an account ? Register now !</Link>
-            <Link>Forgot your password ? Click here</Link>
+            <Goto href="/register">Don't have an account ? Register now !</Goto>
+            <Goto href="#">Forgot your password ? Click here</Goto>
         </form>
     );
 }
 
-export default Example;
+export default Login;

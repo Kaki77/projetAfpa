@@ -14,7 +14,9 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::get('/', function () {
+
+//no conflict with spa
+Route::get('{any_path?}', function () {
     return view('welcome');
 });
 
