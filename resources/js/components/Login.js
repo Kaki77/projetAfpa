@@ -1,10 +1,12 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import apiClient from '../axios'
 import ControlledInput from './ControlledInput'
 import Goto from './Goto'
 
 function Login(props) {
 
+    const navigate=useNavigate()
     const [mail, setMail] = useState('')
     const [password, setPassword] = useState('')
     const [errorMail, setErrorMail] = useState([])
@@ -22,7 +24,8 @@ function Login(props) {
                 .then(response=>{                    
                     setMail('')
                     setPassword('')
-                    //login()
+                    props.login(true)
+                    navigate('/app')
                 })
                 .catch(error=>{
                     if(error.response.status=='400'){
@@ -40,7 +43,7 @@ function Login(props) {
     }
 
     return (
-        <form className="mx-auto my-0 text-center">
+        <form className="text-center">
             <h1 className='text-4xl mb-5'>Log in</h1>
             <ControlledInput title="Mail" type="mail" value={mail} setFunction={setMail} errors={errorMail}/>
             <ControlledInput title="Password" type="password" value={password} setFunction={setPassword} errors={errorPass}/>
