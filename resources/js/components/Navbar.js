@@ -1,10 +1,16 @@
+import LogoutIconSolid from "../icons/solid/LogoutIconSolid"
+import FriendsSolid from "../icons/solid/FriendsIconSolid"
+import UserCircleSolid from "../icons/solid/UserCircleIconSolid"
+import HomeIconSolid from "../icons/solid/HomeIconSolid"
+import {Link as LinkRouter} from 'react-router-dom'
+
 function Navbar() {
   return (
     <div className="flex flex-row h-1/10 bg-teal-500">
-        <button className="h-full w-full bg-red-500">Home</button>
-        <button className="h-full w-full bg-blue-500">Friends</button>
-        <button className="h-full w-full bg-green-500">My Profile</button>
-        <button className="h-full w-full bg-yellow-500">Logout</button>
+        <button className="relative h-full w-full bg-red-500"><LinkRouter to="#"><HomeIconSolid/></LinkRouter></button>
+        <button className="relative h-full w-full bg-blue-500"><LinkRouter to="#"><FriendsSolid/></LinkRouter></button>
+        <button className="relative h-full w-full bg-green-500"><LinkRouter to="#"><UserCircleSolid/></LinkRouter></button>
+        <button className="relative h-full w-full bg-yellow-500"><LinkRouter to="#"><LogoutIconSolid/></LinkRouter></button>
     </div>
   )
 }
