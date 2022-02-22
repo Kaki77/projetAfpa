@@ -2,9 +2,15 @@ import HeartIconOutline from '../icons/outline/HeartIconOutline'
 import CommentIconSolid from '../icons/solid/CommentIconSolid'
 import HeartIconSolid  from '../icons/solid/HeartIconSolid'
 import ShareIconSolid from '../icons/solid/ShareIconSolid'
+import {useState} from 'react'
 
 function LittleCard() {
+
+    const [showComments, setShowComments] = useState(false)
+    const [like, setLike] = useState(false)
+
     return (
+        <>
         <div className="border border-slate-500 grid grid-rows-[1fr_max-content_1fr] grid-cols-4 items-center justify-items-center my-8 pt-8">
             <img className="w-full h-full max-w-[100px] max-h-[100px] rounded-full" src='https://dummyimage.com/100x100.jpg' alt=''/>
             <div>
@@ -21,7 +27,7 @@ function LittleCard() {
             <div className='text-center'>
                 April 12, 2021 at 10:56 AM
             </div>
-            <div className='relative h-5/6 w-full text-center'>
+            <div className='relative h-5/6 w-full text-center' onClick={()=>setShowComments(!showComments)}>
                 <div className='relative h-1/2 w-1/2 left-1/4'>
                     <CommentIconSolid/>
                 </div>
@@ -39,13 +45,19 @@ function LittleCard() {
             </div>
             <div className='relative h-5/6 w-full text-center'>
                 <div className='relative h-1/2 w-1/2 left-1/4'>
-                    <HeartIconOutline/>
+                    <HeartIconOutline state={like} like={setLike}/>
                 </div>
                 <div>
                     500
                 </div>
             </div>
         </div>
+        {
+            showComments ?
+                <LittleCard/>
+            : ''
+        }
+        </>
     )
 }
 

@@ -16,9 +16,10 @@ use App\Http\Controllers\AuthController;
 
 
 //no conflict with spa
-Route::get('{any_path?}', function () {
+Route::get('{any_path?}/{any_subpath?}', function () {
     return view('welcome');
 });
+
 
 Route::post('/login',[AuthController::class,'login'])->name('login');
 Route::post('/register',[AuthController::class,'register'])->name('register');

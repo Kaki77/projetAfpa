@@ -1,5 +1,7 @@
 import Navbar from "./Navbar"
 import LittleCard from "./LittleCard"
+import FriendCard from "./FriendCard"
+import ProfilePage from "./ProfilePage"
 
 function Home(props) {
 
@@ -8,6 +10,8 @@ function Home(props) {
             <Navbar/>
             <LittleCard/>
             <LittleCard/>
+            <FriendCard/>
+            <ProfilePage/>
         </>
     )
 }
