@@ -1,3 +1,4 @@
+import React from 'react';
 import ReactDOM from 'react-dom'
 import { useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
@@ -24,20 +25,18 @@ function App(){
     }
 
     return(
-        <BrowserRouter>
-            {loading ? <Spinner/> : ''}
-            <Routes>
-                <Route path="/" element={<Login loading={setLoading} login={trackLogin} />}/>
-                <Route path="/register" element={<Register loading={setLoading}/>}/>
-                <Route path="/app" element={<Home loading={setLoading}/>}>
-                <Route path="/app/friends" element={<FriendCard/>}/>
-                <Route path="/app/profile/:id" element={<ProfilePage/>}/>
-                </Route>
-            </Routes>
-        </BrowserRouter>
+
+            <BrowserRouter>
+                {loading ? <Spinner/> : ''}
+                <Routes>
+                    <Route path="/" element={<Login loading={setLoading} login={trackLogin} />}/>
+                    <Route path="/register" element={<Register loading={setLoading}/>}/>
+                    <Route path="/app/*" element={<Home loading={setLoading}/>}/>
+                </Routes>
+            </BrowserRouter>
     )   
 }
 
 if (document.getElementById('root')) {
-    ReactDOM.render(<App/>, document.getElementById('root'));
+    ReactDOM.render(<React.StrictMode><App/></React.StrictMode>, document.getElementById('root'));
 }
