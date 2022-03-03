@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\User as UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Validator;
 
 class UserController extends Controller
 {
@@ -15,67 +16,63 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        $users = User::all();
+        return $this->handleResponse(UserResource::collection($users),'Users fetched with success');
     }
 
     public function show($id)
     {
         $user = User::find($id);
+        if(!$user) {
+            return $this->handleError('User not Found');
+        }
         return $this->handleResponse(new UserResource($user),'test');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
+    public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        if($user) {
+            return $this->handleError('User not found');
+        }
+        $user->delete();
+        return $this->handleResponse([],'User deleted with success');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
+    public function changeDescription(Request $request,$id)
     {
-        //
+        $user = User::find($id);
+        if(!$user || $id != Auth::id()) {
+            return $this->handleError('An error has occured, please try later');
+        }
+        $input = $request->all();
+        $validator = Validator::make($input,[
+            'description'=>['max:250'],
+        ]);
+        if($validator->fails()) {
+            return $this->handleError($validator->errors());
+        }
+        $user->description = $input['description'];
+        $user->save();
+        return $this->handleResponse([],'Description updated with success');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
-        //
+    public function changeAvatar(Request $request,$id) {
+        $user = User::find($id);
+        if(!$user || $id != Auth::id()) {
+            return $this->handleError('An error has occured, please try later');
+        }
+        $input = $request->all();
+        $validator = Validator::make($input,[
+            'avatar'=>['image','mimes:jpeg,png,jpg']
+        ]);
+        if($validator->fails()){
+            return $this->handleError($validator->errors());
+        }
+        $imageName=time().'.'.$request->image->getClientOriginalExtension();
+        $request->image->move(public_path('uploads'),$imageName);
+        $user->avatar = env('UPLOAD_PATH').$imageName;
+        $user->save();
+        return $this->handleResponse([],'Avatar updated with success');
     }
 }

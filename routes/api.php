@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostController;
 
 
 /*
@@ -18,5 +19,11 @@ use App\Http\Controllers\AuthController;
 */
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout',[AuthController::class,'logout'])->name('logout');
+
     Route::resource('user',UserController::class);
+    Route::post('/user/{user}/editDescription',[UserController::class,'changeDescription'])->name('changeDescription');
+    Route::post('/user/{user}/editAvatar',[UserController::class,'changeAvatar'])->name('changeAvatar');
+
+
+    Route::resource('post',PostController::class);
 });

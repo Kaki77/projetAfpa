@@ -9,12 +9,16 @@ class Post extends Model
 {
     use HasFactory;
 
+    public function author() {
+        return $this->belongsTo(User::class,'user_id');
+    }
+
     public function comments() {
-        return $this->belongsToMany(Comments::class,'post_has_comments','post_id','comment_id')->as('comments');
+        return $this->belongsToMany(Comment::class,'post_has_comments','post_id','comment_id')->as('comments');
     }
 
     public function images() {
-        return $this->belongsToMany(Images::class,'post_has_images','post_id','image_id')->as('images');
+        return $this->belongsToMany(Image::class,'post_has_images','post_id','image_id')->as('images');
     }
 
     public function likers() {

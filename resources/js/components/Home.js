@@ -10,7 +10,10 @@ function Home(props) {
 
     useEffect(() => {
         let controller = new AbortController()
-        apiClient.get('api/user/1',{signal:controller.signal})
+        apiClient.post('api/user/1/editDescription',{
+            signal:controller.signal,
+            description:'hello',
+        })
         .then(response=>{
             console.log(response.data);
         })
