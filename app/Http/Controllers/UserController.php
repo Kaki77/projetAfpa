@@ -6,6 +6,7 @@ use App\Http\Resources\User as UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Validator;
+use Auth;
 
 class UserController extends Controller
 {
@@ -16,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::all()->orderBy('name','asc');
         return $this->handleResponse(UserResource::collection($users),'Users fetched with success');
     }
 
@@ -74,5 +75,10 @@ class UserController extends Controller
         $user->avatar = env('UPLOAD_PATH').$imageName;
         $user->save();
         return $this->handleResponse([],'Avatar updated with success');
+    }
+
+    public function follow() {
+        $follow = User::find(Auth::id())->follow()->orderBy('name','asc')->get();
+        return $this->handleResponse(UserResource::collection($follow),'Follow fetched with success');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Post as PostResource;
 
 class User extends JsonResource
 {
@@ -20,6 +21,7 @@ class User extends JsonResource
             'description'=>$this->description,
             'followers'=>$this->followers,
             'follow'=>$this->follow,
+            'posts'=>PostResource::collection($this->posts),
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at
         ];

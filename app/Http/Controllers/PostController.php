@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\Post as PostResource;
+use App\Http\Resources\User as UserResource;
 use App\Models\Post;
+use App\Models\User;
 use App\Models\Image;
 use Validator;
 use Auth;
@@ -18,7 +20,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::all()->orderBy('created_at','desc');
         return $this->handleResponse(PostResource::collection($posts),'Posts fetched with success');
     }
 
@@ -70,4 +72,15 @@ class PostController extends Controller
         $post->delete();
         return $this->handleResponse([],'Post deleted with success');
     }
+
+    public function newsFeed() {
+        $follow = User::find(Auth::id())->follow()->get();
+        $id_array = $follow->pluck('id');
+        if(!$follow || count($follow) < 1) {
+            return $this->handleResponse([],'No follow found');
+        }
+        $posts = Post::whereIn('user_id',$id_array)->orderBy('created_at','desc')->get();
+        return $this->handleResponse(PostResource::collection($posts),'Posts fetched with success');
+    }
+
 }

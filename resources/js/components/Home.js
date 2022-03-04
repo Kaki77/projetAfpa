@@ -1,35 +1,17 @@
 import Navbar from "./Navbar"
-import LittleCard from "./LittleCard"
-import FriendCard from "./FriendCard"
-import ProfilePage from "./ProfilePage"
+import ProfileFeed from "./ProfileFeed"
 import {Routes,Route} from 'react-router-dom'
-import {useEffect} from 'react'
-import apiClient from '../axios'
+import NewsFeed from "./NewsFeed"
+import FollowFeed from "./FollowFeed"
 
 function Home(props) {
-
-    useEffect(() => {
-        let controller = new AbortController()
-        apiClient.post('api/user/1/editDescription',{
-            signal:controller.signal,
-            description:'hello',
-        })
-        .then(response=>{
-            console.log(response.data);
-        })
-        return () => {
-            controller.abort()
-        }
-    }, [])
-    
-
     return (
         <>
             <Navbar/>
             <Routes>
-                    <Route path="/" element={<LittleCard/>}/>
-                    <Route path="/friends" element={<FriendCard/>}/>
-                    <Route path="/profile/:id" element={<ProfilePage/>}/>
+                    <Route path="/" element={<NewsFeed loading={props.loading}/>}/>
+                    <Route path="/friends" element={<FollowFeed loading={props.loading}/>}/>
+                    <Route path="/profile/:id" element={<ProfileFeed loading={props.loading}/>}/>
             </Routes>
         </>
     )

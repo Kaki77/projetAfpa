@@ -1,38 +1,39 @@
 import HeartIconOutline from '../icons/outline/HeartIconOutline'
 import CommentIconSolid from '../icons/solid/CommentIconSolid'
-import HeartIconSolid  from '../icons/solid/HeartIconSolid'
 import ShareIconSolid from '../icons/solid/ShareIconSolid'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import {useState} from 'react'
 
-function LittleCard() {
+function LittleCard(props) {
 
     const [showComments, setShowComments] = useState(false)
     const [like, setLike] = useState(false)
+    dayjs.extend(relativeTime)
 
     return (
         <>
         <div className="border border-slate-500 grid grid-rows-[1fr_max-content_1fr] grid-cols-4 items-center justify-items-center my-8 pt-8">
             <img className="w-full h-full max-w-[100px] max-h-[100px] rounded-full" src='https://dummyimage.com/100x100.jpg' alt=''/>
             <div>
-                Pseudo ID
+                {props.post.author.name} #{props.post.author.id}
             </div>
             <div></div>
             <div>
-                10 months ago
+                Posted {dayjs(props.post.created_at).fromNow()}
             </div>
-            <div className="col-start-2 col-end-5 py-8">
-                Do non adipisicing eiusmod esse duis sit amet occaecat aute sint. Consequat non sit proident excepteur. Id occaecat nisi dolore Lorem veniam. Velit est Lorem nisi minim eu adipisicing nulla ex esse magna.
-                Consequat labore sint officia anim Lorem aute ea ad pariatur quis nostrud. Cillum sit exercitation minim adipisicing aliqua id et consequat exercitation. Ad enim id reprehenderit exercitation eiusmod.
+            <div className="col-start-2 col-end-5 py-8 w-full">
+               {props.post.content}
             </div>
             <div className='text-center'>
-                April 12, 2021 at 10:56 AM
+                {dayjs(props.post.created_at).format('YYYY-MM-DD HH:mm:ss')}
             </div>
-            <div className='relative h-5/6 w-full text-center' onClick={()=>setShowComments(!showComments)}>
+            <div className='relative h-5/6 w-full text-center' onClick={()=>props.post.comments.length > 0 ? setShowComments(!showComments) : ''}>
                 <div className='relative h-1/2 w-1/2 left-1/4'>
                     <CommentIconSolid/>
                 </div>
                 <div>
-                    33
+                    {props.post.comments.length}
                 </div>
             </div>
             <div className='relative h-5/6 w-full text-center'>
@@ -40,7 +41,7 @@ function LittleCard() {
                     <ShareIconSolid/>
                 </div>
                 <div>
-                    125
+                    {props.post.sharers.length}
                 </div>
             </div>
             <div className='relative h-5/6 w-full text-center'>
@@ -48,7 +49,7 @@ function LittleCard() {
                     <HeartIconOutline state={like} like={setLike}/>
                 </div>
                 <div>
-                    500
+                    {props.post.likers.length}
                 </div>
             </div>
         </div>

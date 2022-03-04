@@ -20,10 +20,12 @@ use App\Http\Controllers\PostController;
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout',[AuthController::class,'logout'])->name('logout');
 
-    Route::resource('user',UserController::class);
+    Route::get('/user/follow',[UserController::class,'follow'])->name('follow');
+    Route::get('/user/{user}/profile',[UserController::class,'profile'])->name('profile');
     Route::post('/user/{user}/editDescription',[UserController::class,'changeDescription'])->name('changeDescription');
     Route::post('/user/{user}/editAvatar',[UserController::class,'changeAvatar'])->name('changeAvatar');
-
-
+    Route::resource('user',UserController::class);
+    
+    Route::get('/post/newsFeed',[PostController::class,'newsFeed'])->name('newsFeed');
     Route::resource('post',PostController::class);
 });

@@ -6,8 +6,6 @@ import Login from './components/Login'
 import Register from './components/Register'
 import Spinner from './components/Spinner'
 import Home from './components/Home'
-import FriendCard from './components/FriendCard'
-import ProfilePage from './components/ProfilePage'
 
 function App(){
 

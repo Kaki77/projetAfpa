@@ -14,7 +14,7 @@ class Post extends Model
     }
 
     public function comments() {
-        return $this->belongsToMany(Comment::class,'post_has_comments','post_id','comment_id')->as('comments');
+        return $this->belongsToMany(Comment::class,'post_has_comments','post_id','comment_id')->orderBy('created_at','asc')->as('comments');
     }
 
     public function images() {
@@ -22,11 +22,11 @@ class Post extends Model
     }
 
     public function likers() {
-        return $this->belongsToMany(User::class,'post_is_liked','post_id','user_id')->as('likers');
+        return $this->belongsToMany(User::class,'post_is_liked','post_id','user_id')->orderBy('name','asc')->as('likers');
     }
 
     public function sharers() {
-        return $this->belongsToMany(User::class,'post_is_shared','post_id','user_id')->as('sharers');
+        return $this->belongsToMany(User::class,'post_is_shared','post_id','user_id')->orderBy('name','asc')->as('sharers');
     }
 
     

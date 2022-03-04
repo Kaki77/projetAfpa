@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Post;
 
 class User extends Authenticatable
 {
@@ -44,10 +45,14 @@ class User extends Authenticatable
     ];
 
     public function followers() {
-        return $this->belongsToMany(User::class,'follows','followed_id','follower_id')->as('followers');
+        return $this->belongsToMany(User::class,'follows','followed_id','follower_id')->orderBy('name','asc')->as('followers');
     }
 
     public function follow() {
-        return $this->belongsToMany(User::class,'follows','follower_id','followed_id')->as('follow');
+        return $this->belongsToMany(User::class,'follows','follower_id','followed_id')->orderBy('name','asc')->as('follow');
+    }
+
+    public function posts() {
+        return $this->hasMany(Post::class,'user_id')->orderBy('created_at','desc');
     }
 }
