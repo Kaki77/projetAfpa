@@ -10,11 +10,6 @@ use Auth;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $users = User::all()->orderBy('name','asc');
@@ -27,7 +22,7 @@ class UserController extends Controller
         if(!$user) {
             return $this->handleError('User not Found');
         }
-        return $this->handleResponse(new UserResource($user),'test');
+        return $this->handleResponse(new UserResource($user),'User fetched with success');
     }
 
     public function destroy($id)

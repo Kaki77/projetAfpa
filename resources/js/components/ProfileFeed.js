@@ -15,7 +15,6 @@ function ProfileFeed(props) {
 
     useEffect(() => {
         props.loading(true)
-        
         let controller = new AbortController()
         apiClient.get('api/user/'+id,{
             signal:controller.signal,
@@ -28,7 +27,7 @@ function ProfileFeed(props) {
         return () => {
             controller.abort()
         }
-    }, [])
+    }, [id])
 
     return (
         <>

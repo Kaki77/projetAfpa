@@ -3,13 +3,29 @@ import CommentIconSolid from '../icons/solid/CommentIconSolid'
 import ShareIconSolid from '../icons/solid/ShareIconSolid'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import apiClient from '../axios'
 import {useState} from 'react'
 
 function LittleCard(props) {
 
     const [showComments, setShowComments] = useState(false)
-    const [like, setLike] = useState(false)
+    const [like, setLike] = useState(props.post.likers.find(e=>e.id == props.id) ? props.post.likers.find(e=>e.id == props.user) : false)
+    const [likeCount, setLikeCount] = useState(props.post.likers.length)
     dayjs.extend(relativeTime)
+
+    function postLike() {
+        apiClient.post(`api/post/${props.post.id}/like`)
+        .then(response=>{
+            if(response.data.data == 'true') {
+                setLike(true)
+                setLikeCount(likeCount+1)
+            }
+            else {
+                setLike(false)
+                setLikeCount(likeCount-1)
+            }
+        })
+    }
 
     return (
         <>
@@ -46,10 +62,10 @@ function LittleCard(props) {
             </div>
             <div className='relative h-5/6 w-full text-center'>
                 <div className='relative h-1/2 w-1/2 left-1/4'>
-                    <HeartIconOutline state={like} like={setLike}/>
+                    <HeartIconOutline state={like} like={postLike}/>
                 </div>
                 <div>
-                    {props.post.likers.length}
+                    {likeCount}
                 </div>
             </div>
         </div>

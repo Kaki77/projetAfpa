@@ -23,3 +23,4 @@ Route::get('{any_path?}/{any_subpath?}/{any_sub_subpath?}', function () {
 
 Route::post('/login',[AuthController::class,'login'])->name('login');
 Route::post('/register',[AuthController::class,'register'])->name('register');
+Route::post('/sessionCheck',[AuthController::class,'checkSession'])->name('chechSession');

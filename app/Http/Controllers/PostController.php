@@ -83,4 +83,20 @@ class PostController extends Controller
         return $this->handleResponse(PostResource::collection($posts),'Posts fetched with success');
     }
 
+    public function postLike($id) {
+        $likers = Post::find($id)->likers();
+        $like = $likers->where('user_id',Auth::id())->first();
+        if(!$like) {
+            $likers->attach(Auth::id());
+            $data = json_encode(true);
+            $message = 'Post has been liked successfuly';
+        }
+        else {
+            $likers->detach(Auth::id());
+            $data = json_encode(false);
+            $message = 'Post has been unliked sucessfuly';
+        }
+        return $this->handleResponse($data,$message);
+    }
+
 }
