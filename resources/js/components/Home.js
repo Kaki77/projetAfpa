@@ -7,7 +7,7 @@ import FollowFeed from "./FollowFeed"
 function Home(props) {
     return (
         <>
-            <Navbar/>
+            <Navbar userID={props.userID} setUserID={props.setUserID}/>
             <Routes>
                     <Route path="/" element={<NewsFeed loading={props.loading}/>}/>
                     <Route path="/friends" element={<FollowFeed loading={props.loading}/>}/>

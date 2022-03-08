@@ -20,7 +20,7 @@ class AuthController extends Controller
         }
         if(Auth::attempt($credentials)){
             $request->session()->regenerate();
-            return $this->handleResponse([],'User logged-in');
+            return $this->handleResponse(Auth::id(),'User logged-in');
         }
         else{
             return $this->handleError('Credentials do not match',[],'401');

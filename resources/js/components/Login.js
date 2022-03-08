@@ -1,12 +1,13 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,useSearchParams } from 'react-router-dom'
 import apiClient from '../axios'
 import ControlledInput from './ControlledInput'
 import Link from './Link'
 
 function Login(props) {
 
-    const navigate=useNavigate()
+    const [searchParams, setSearchParams] = useSearchParams()
+    const navigate = useNavigate()
     const [mail, setMail] = useState('')
     const [password, setPassword] = useState('')
     const [errorMail, setErrorMail] = useState([])
@@ -24,8 +25,8 @@ function Login(props) {
                 .then(response=>{                    
                     setMail('')
                     setPassword('')
-                    props.login(true)
-                    navigate('/app')
+                    props.login(response.data.data)
+                    searchParams.get('next') ? navigate(searchParams.get('next')) : navigate('/app')
                 })
                 .catch(error=>{
                     if(error.response.status=='400'){

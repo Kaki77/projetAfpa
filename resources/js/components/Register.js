@@ -1,11 +1,11 @@
-import {useState} from 'react'
+import {useState,useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import apiClient from '../axios'
 import ControlledInput from "./ControlledInput"
 
 function Register(props) {
 
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     const [Name, setName] = useState('')
     const [Mail, setMail] = useState('')
     const [Password, setPassword] = useState('')
@@ -14,6 +14,16 @@ function Register(props) {
     const [errorMail, setErrorMail] = useState([])
     const [errorPass, setErrorPass] = useState([])
     const [errorConfirmPass, setErrorConfirmPass] = useState([])
+
+    useEffect(() => {
+        if(props.id) {
+            navigate('/app',{replace:true})
+        }
+        return () => {
+            //
+        }
+    }, [])
+    
 
     function register(event){
         props.loading(true)
