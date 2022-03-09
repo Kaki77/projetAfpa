@@ -11,5 +11,10 @@
     <body>
         <div id="root" class="w-2/3 h-screen mx-auto"></div>
     </body>
+    <script>
+		window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        ]) !!};
+	</script>
     <script src="/js/app.js"></script>
 </html>

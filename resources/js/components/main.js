@@ -13,32 +13,36 @@ function App(){
     const location = useLocation()
     const navigate = useNavigate()
 
-    useEffect(() => {
-      apiClient.post('/sessionCheck')
+    function sessionCheck() {
+        apiClient.post('/sessionCheck')
         .then(response=>{
             if(response.data.data) {
+                console.log('authenticated');
                 setId(response.data.data)
+                if(location.pathname == '/' || location.pathname == '/register') {
+                    navigate('/app',{replace:true});
+                }
             }
             else {
+                console.log('not authenticated');
                 setLoading(false)
                 if(location.pathname !== '/' && location.pathname !== '/register') {
                     navigate(`/?next=${location.pathname}`,{replace:true});
                 }
+                return false
             }
         })
-      return () => {
-        //
-      }
-    }, [])
-    
+        return true
+        
+    }
 
     return(
         <>
             {loading ? <Spinner/> : ''}
             <Routes>
-                <Route path="/" element={<Login loading={setLoading} login={setId} />}/>
-                <Route path="/register" element={<Register loading={setLoading} id={id}/>}/>
-                <Route path="/app/*" element={<Home loading={setLoading} userID={id} setUserID={setId}/>}/>
+                <Route path="/" element={<Login loading={setLoading} login={setId} sessionCheck={sessionCheck}/>}/>
+                <Route path="/register" element={<Register loading={setLoading} id={id} sessionCheck={sessionCheck}/>}/>
+                <Route path="/app/*" element={<Home loading={setLoading} userID={id} setUserID={setId} sessionCheck={sessionCheck}/>}/>
             </Routes>
         </>
     )   

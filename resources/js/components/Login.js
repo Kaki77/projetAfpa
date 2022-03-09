@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import { useNavigate,useSearchParams } from 'react-router-dom'
 import apiClient from '../axios'
 import ControlledInput from './ControlledInput'
@@ -13,34 +13,39 @@ function Login(props) {
     const [errorMail, setErrorMail] = useState([])
     const [errorPass, setErrorPass] = useState([])
 
+    useEffect(() => {
+        props.sessionCheck()
+        return () => {
+            //
+        }
+    }, [])
+    
+
     function login(event){
         props.loading(true)
         event.preventDefault()
-        apiClient.get('sanctum/csrf-cookie')
-            .then(response=>{
-                apiClient.post('login',{
-                    email:mail,
-                    password:password
-                })
-                .then(response=>{                    
-                    setMail('')
-                    setPassword('')
-                    props.login(response.data.data)
-                    searchParams.get('next') ? navigate(searchParams.get('next')) : navigate('/app')
-                })
-                .catch(error=>{
-                    if(error.response.status=='400'){
-                        error.response.data.message.email ? setErrorMail(error.response.data.message.email) : setErrorMail([])
-                        error.response.data.message.password ? setErrorPass(error.response.data.message.password) : setErrorPass([])
-                    } 
-                    else if(error.response.status=='401'){
-                        setErrorMail([error.response.data.message])
-                    }
-                })
-                .finally(()=>{
-                    props.loading(false)
-                })     
-            })
+        apiClient.post('login',{
+            email:mail,
+            password:password
+        })
+        .then(response=>{                    
+            setMail('')
+            setPassword('')
+            props.login(response.data.data)
+            searchParams.get('next') ? navigate(searchParams.get('next')) : navigate('/app')
+        })
+        .catch(error=>{
+            if(error.response.status=='400'){
+                error.response.data.message.email ? setErrorMail(error.response.data.message.email) : setErrorMail([])
+                error.response.data.message.password ? setErrorPass(error.response.data.message.password) : setErrorPass([])
+            } 
+            else if(error.response.status=='401'){
+                setErrorMail([error.response.data.message])
+            }
+        })
+        .finally(()=>{
+            props.loading(false)
+        })     
     }
 
     return (

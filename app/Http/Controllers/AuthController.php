@@ -53,8 +53,13 @@ class AuthController extends Controller
 
     public function checkSession(Request $request) {
         if ((time() - $request->session()->get('LAST_ACTIVITY')) > (\Config::get('session.lifetime') * 60)) {
-            return $this->handleResponse(Auth::id(),'Session is not expired');
+            if(Auth::id()) {
+                return $this->handleResponse(Auth::id(),'Session is not expired');
+            }
+            else {
+                return $this->handleResponse('','Session is not existent');
+            }
         }
-        return $this->handleResponse([],'Session is expired or not existent');
+        return $this->handleResponse('','Session is expired');
     }
 }

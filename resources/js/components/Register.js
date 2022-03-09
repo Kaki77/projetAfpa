@@ -16,9 +16,7 @@ function Register(props) {
     const [errorConfirmPass, setErrorConfirmPass] = useState([])
 
     useEffect(() => {
-        if(props.id) {
-            navigate('/app',{replace:true})
-        }
+        props.sessionCheck()
         return () => {
             //
         }
@@ -28,36 +26,33 @@ function Register(props) {
     function register(event){
         props.loading(true)
         event.preventDefault()
-        apiClient.get('sanctum/csrf-cookie')
-            .then(response=>{
-                apiClient.post('register',{
-                    name:Name,
-                    email:Mail,
-                    password:Password,
-                    confirm_password:ConfirmPassword
-                })
-                .then(response=>{
-                    setName('')                    
-                    setMail('')
-                    setPassword('')
-                    setConfirmPassword('')
-                    navigate('/')
-                })
-                .catch(error=>{
-                    if(error.response.status=='400'){
-                        error.response.data.message.name ? setErrorName(error.response.data.message.name) : setErrorName([])
-                        error.response.data.message.email ? setErrorMail(error.response.data.message.email) : setErrorMail([])
-                        error.response.data.message.password ? setErrorPass(error.response.data.message.password) : setErrorPass([])
-                        error.response.data.message.confirm_password ? setErrorConfirmPass(error.response.data.message.confirm_password) : setErrorConfirmPass([])
-                    } 
-                    else if(error.response.status=='401'){
-                        setErrorMail([error.response.data.message])
-                    }
-                })
-                .finally(()=>{
-                    props.loading(false)
-                })
-            })
+        apiClient.post('register',{
+            name:Name,
+            email:Mail,
+            password:Password,
+            confirm_password:ConfirmPassword
+        })
+        .then(response=>{
+            setName('')                    
+            setMail('')
+            setPassword('')
+            setConfirmPassword('')
+            navigate('/')
+        })
+        .catch(error=>{
+            if(error.response.status=='400'){
+                error.response.data.message.name ? setErrorName(error.response.data.message.name) : setErrorName([])
+                error.response.data.message.email ? setErrorMail(error.response.data.message.email) : setErrorMail([])
+                error.response.data.message.password ? setErrorPass(error.response.data.message.password) : setErrorPass([])
+                error.response.data.message.confirm_password ? setErrorConfirmPass(error.response.data.message.confirm_password) : setErrorConfirmPass([])
+            } 
+            else if(error.response.status=='401'){
+                setErrorMail([error.response.data.message])
+            }
+        })
+        .finally(()=>{
+            props.loading(false)
+        })
     }
 
 

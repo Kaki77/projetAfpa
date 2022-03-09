@@ -17,7 +17,7 @@ use App\Http\Controllers\AuthController;
 
 //no conflict with spa
 Route::get('{any_path?}/{any_subpath?}/{any_sub_subpath?}', function () {
-    return view('welcome');
+    return view('master');
 });
 
 

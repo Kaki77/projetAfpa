@@ -8,17 +8,19 @@ function NewsFeed(props) {
 
     useEffect(() => {
         props.loading(true)
-        let controller = new AbortController()
-        apiClient.get('api/post/newsFeed',{
-            signal:controller.signal,
-        })
-        .then(response=>{
-            setData(response.data.data)
-            console.log(response.data);
-            props.loading(false)
-        })
-        return () => {
-            controller.abort()
+        if(props.sessionCheck()) {
+            let controller = new AbortController()
+            apiClient.get('api/post/newsFeed',{
+                signal:controller.signal,
+            })
+            .then(response=>{
+                setData(response.data.data)
+                console.log(response.data);
+                props.loading(false)
+            })
+            return () => {
+                controller.abort()
+            }
         }
     }, [])
 

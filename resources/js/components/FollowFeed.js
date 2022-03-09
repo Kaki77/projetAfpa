@@ -8,17 +8,19 @@ function FollowFeed(props) {
 
     useEffect(() => {
         props.loading(true)
-        let controller = new AbortController()
-        apiClient.get('api/user/follow',{
-            signal:controller.signal,
-        })
-        .then(response=>{
-            setData(response.data.data)
-            console.log(response.data)
-            props.loading(false)
-        })
-        return () => {
-            controller.abort()
+        if(props.sessionCheck()) {
+            let controller = new AbortController()
+            apiClient.get('api/user/follow',{
+                signal:controller.signal,
+            })
+            .then(response=>{
+                setData(response.data.data)
+                console.log(response.data)
+                props.loading(false)
+            })
+            return () => {
+                controller.abort()
+            }
         }
     }, [])
 
