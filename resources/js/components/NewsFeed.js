@@ -8,29 +8,30 @@ function NewsFeed(props) {
 
     useEffect(() => {
         props.loading(true)
-        if(props.sessionCheck()) {
-            let controller = new AbortController()
-            apiClient.get('api/post/newsFeed',{
-                signal:controller.signal,
-            })
-            .then(response=>{
-                setData(response.data.data)
-                console.log(response.data);
-                props.loading(false)
-            })
-            return () => {
-                controller.abort()
-            }
+        let controller = new AbortController()
+        props.sessionCheck(fetch,controller)
+        return () => {
+            controller.abort()
         }
     }, [])
 
+    function fetch(controller) {
+        apiClient.get('api/post/newsFeed',{
+            signal:controller.signal,
+        })
+        .then(response=>{
+            setData(response.data.data)
+            console.log(response.data);
+            props.loading(false)
+        })
+    }
 
     return (
         <>
             {data ?
                 <>
                 <div>Last Posts</div>
-                {data.map(element=><LittleCard post={element}/>)}
+                {data.map(element=><LittleCard post={element} key={element.id}/>)}
                 </>
                 : 'There is no posts from people you follow'
             }

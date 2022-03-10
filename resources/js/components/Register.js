@@ -59,10 +59,10 @@ function Register(props) {
     return (
         <form className="mx-auto my-0 text-center">
             <h1 className='text-4xl mb-5'>Register</h1>
-            <ControlledInput title="Name" type="text" value={Name} setFunction={setName} errors={errorName}/>
-            <ControlledInput title="Mail" type="text" value={Mail} setFunction={setMail} errors={errorMail}/>
-            <ControlledInput title="Password" type="password" value={Password} setFunction={setPassword} errors={errorPass}/>
-            <ControlledInput title="Confirm Password" type="password" value={ConfirmPassword} setFunction={setConfirmPassword} errors={errorConfirmPass}/>
+            <ControlledInput label={true} title="Name" type="text" value={Name} setFunction={setName} errors={errorName}/>
+            <ControlledInput label={true} title="Mail" type="text" value={Mail} setFunction={setMail} errors={errorMail}/>
+            <ControlledInput label={true} title="Password" type="password" value={Password} setFunction={setPassword} errors={errorPass}/>
+            <ControlledInput label={true} title="Confirm Password" type="password" value={ConfirmPassword} setFunction={setConfirmPassword} errors={errorConfirmPass}/>
             <button className="text-xl px-5 mb-5 py-1 bg-teal-400 text-white rounded hover:bg-teal-600 transition" type="submit" onClick={register}>Register now !</button>
         </form>
     )

@@ -29,7 +29,8 @@ class PostController extends Controller
         $input = $request->all();
         $validator = Validator::make($input,[
             'content'=>['required','max:255'],
-            'image'=>['image','mimes:jpeg,png,jpg'],
+            'image'=>['array'],
+            'image.*'=>['image','mimes:jpeg,png,jpg'],
         ]);
         if($validator->fails()){
             return $this->handleError($validator->errors());
@@ -39,12 +40,14 @@ class PostController extends Controller
         $post->author()->associate(Auth::id());
         $post->save();
         if($request->image){
-            $imageName=time().'.'.$request->image->getClientOriginalExtension();
-            $request->image->move(public_path('uploads'),$imageName);
-            $image=new Image();
-            $image->url = env('UPLOAD_PATH').$imageName;
-            $image->save();
-            $post->images()->attach($image);
+            foreach($request->image as $key=>$file) {
+                $imageName=time().$key.'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('uploads'),$imageName);
+                $image = new Image();
+                $image->url = env('UPLOAD_PATH').$imageName;
+                $image->save();
+                $post->images()->attach($image);
+            }
         }
         return $this->handleResponse($post,'Post posted with success');
     }

@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
 import LittleCard from './LittleCard'
+import PostArea from './PostArea'
 
 function ProfileFeed(props) {
 
@@ -15,24 +16,28 @@ function ProfileFeed(props) {
     
     useEffect(() => {
         props.loading(true)
-        if(props.sessionCheck()) {
-            let controller = new AbortController()
-            apiClient.get('api/user/'+id,{
-                signal:controller.signal,
-            })
-            .then(response=>{
-                setData(response.data.data)
-                console.log(response.data);
-                props.loading(false)
-            })
-            return () => {
-                controller.abort()
-            }
+        let controller = new AbortController()
+        props.sessionCheck(fetch,controller)
+        return () => {
+            controller.abort()
         }
     }, [id])
 
+    function fetch(controller) {
+        apiClient.get('api/user/'+id,{
+            signal:controller.signal,
+        })
+        .then(response=>{
+            setData(response.data.data)
+            console.log(response.data);
+            props.loading(false)
+        })
+    }
+
     return (
         <>
+        {!props.loadState && data.length != 0 ?
+            <>
             <div className="grid grid-rows-5-maxContent justify-content-center items-center text-center">
                 <img className="mx-auto w-full h-full max-w-[100px] max-h-[100px] rounded-full" src='https://dummyimage.com/100x100.jpg' alt=''/>
                 <div>
@@ -48,9 +53,13 @@ function ProfileFeed(props) {
                     {data.description}
                 </div>
             </div>
+            {props.userID == id ? <PostArea addPost={setData}/> : ''}
             <div>
-                {data.posts ? data.posts.map(element=><LittleCard post={element} />) : ' This user doesn\'t post something'}
+                {data.posts ? data.posts.map(element=><LittleCard post={element} key={element.id}/>) : ' This user doesn\'t post something'}
             </div>
+            </>
+        :''
+        }
         </>
     )
 }

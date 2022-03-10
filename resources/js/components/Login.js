@@ -51,8 +51,8 @@ function Login(props) {
     return (
         <form className="text-center">
             <h1 className='text-4xl mb-5'>Log in</h1>
-            <ControlledInput title="Mail" type="mail" value={mail} setFunction={setMail} errors={errorMail}/>
-            <ControlledInput title="Password" type="password" value={password} setFunction={setPassword} errors={errorPass}/>
+            <ControlledInput label={true} title="Mail" type="mail" value={mail} setFunction={setMail} errors={errorMail}/>
+            <ControlledInput label={true} title="Password" type="password" value={password} setFunction={setPassword} errors={errorPass}/>
             <button className="text-xl w-24 mb-5 py-1 bg-teal-400 text-white rounded hover:bg-teal-600 transition" type="submit" onClick={login}>Log in</button>
             <br/>
             <Link href="/register">Don't have an account ? Register now !</Link>

@@ -6,7 +6,7 @@ function FriendCard(props) {
     dayjs.extend(relativeTime)
     return (
         <LinkRouter to={"../profile/"+props.user.id}>
-            <div className="border border-slate-500 grid grid-rows-1 grid-cols-2 justify-items-center text-center items-center">
+            <div className="border border-slate-500 grid grid-rows-1 grid-cols-2 justify-items-center text-center items-center my-8 pt-8">
                 <div id="info" className="relative">
                     <img className="mx-auto w-full h-full max-w-[100px] max-h-[100px] rounded-full" src='https://dummyimage.com/100x100.jpg' alt=''/>
                     <div>

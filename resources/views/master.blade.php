@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="/css/app.css" />
     </head>
     <body>
-        <div id="root" class="w-2/3 h-screen mx-auto"></div>
+        <div id="root" class="mx-auto"></div>
     </body>
     <script>
 		window.Laravel = {!! json_encode([

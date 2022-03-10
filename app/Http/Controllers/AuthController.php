@@ -57,9 +57,9 @@ class AuthController extends Controller
                 return $this->handleResponse(Auth::id(),'Session is not expired');
             }
             else {
-                return $this->handleResponse('','Session is not existent');
+                return $this->handleError('Session is not existent',[],'401');
             }
         }
-        return $this->handleResponse('','Session is expired');
+        return $this->handleError('Session is expired',[],'401');
     }
 }
