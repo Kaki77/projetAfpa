@@ -14,7 +14,7 @@ class Post extends Model
     }
 
     public function comments() {
-        return $this->belongsToMany(Comment::class,'post_has_comments','post_id','comment_id')->orderBy('created_at','asc')->as('comments');
+        return $this->belongsToMany(Comment::class,'post_has_comments','post_id','comment_id')->orderBy('created_at','desc')->as('comments');
     }
 
     public function images() {

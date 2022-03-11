@@ -55,4 +55,8 @@ class User extends Authenticatable
     public function posts() {
         return $this->hasMany(Post::class,'user_id')->orderBy('created_at','desc');
     }
+
+    public function sharedPost() {
+        return $this->belongsToMany(Post::class,'post_is_shared','user_id','post_id')->orderBy('created_at','desc')->as('sharedPost');
+    }
 }

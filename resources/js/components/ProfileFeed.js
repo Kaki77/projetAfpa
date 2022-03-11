@@ -36,7 +36,7 @@ function ProfileFeed(props) {
 
     return (
         <>
-        {!props.loadState && data.length != 0 ?
+        {!props.loadState ?
             <>
             <div className="grid grid-rows-5-maxContent justify-content-center items-center text-center">
                 <img className="mx-auto w-full h-full max-w-[100px] max-h-[100px] rounded-full" src='https://dummyimage.com/100x100.jpg' alt=''/>
@@ -53,9 +53,11 @@ function ProfileFeed(props) {
                     {data.description}
                 </div>
             </div>
-            {props.userID == id ? <PostArea addPost={setData}/> : ''}
+            {props.userID == id ? <PostArea url={'api/post'}/> : ''}
             <div>
-                {data.posts ? data.posts.map(element=><LittleCard post={element} key={element.id}/>) : ' This user doesn\'t post something'}
+                {data.posts ? 
+                data.posts.map(post=><LittleCard post={post} key={post.id} userID={props.userID} user={data.name} />) 
+                : ' This user doesn\'t post something'}
             </div>
             </>
         :''

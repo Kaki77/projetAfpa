@@ -4,7 +4,7 @@ import Login from './Login'
 import Register from './Register'
 import Spinner from './Spinner'
 import Home from './Home'
-import apiClient from '../axios';
+import apiClient from '../axios'
 
 function App(){
 

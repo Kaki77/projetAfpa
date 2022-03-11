@@ -8,6 +8,7 @@ use App\Http\Resources\User as UserResource;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Image;
+use App\Models\Comment;
 use Validator;
 use Auth;
 
@@ -78,11 +79,12 @@ class PostController extends Controller
 
     public function newsFeed() {
         $follow = User::find(Auth::id())->follow()->get();
-        $id_array = $follow->pluck('id');
         if(!$follow || count($follow) < 1) {
             return $this->handleResponse([],'No follow found');
         }
+        $id_array = $follow->pluck('id');
         $posts = Post::whereIn('user_id',$id_array)->orderBy('created_at','desc')->get();
+        $comment = Comment::whereIn('user_id',$id_array)->orderBy('created_at','desc')->get();
         return $this->handleResponse(PostResource::collection($posts),'Posts fetched with success');
     }
 
@@ -100,6 +102,25 @@ class PostController extends Controller
             $message = 'Post has been unliked sucessfuly';
         }
         return $this->handleResponse($data,$message);
+    }
+
+    public function comment(Request $request,$id) {
+        $input = $request->all();
+        $validator = Validator::make($input,[
+            'content'=>['required','max:255'],
+            'image'=>['array'],
+            'image.*'=>['image','mimes:jpeg,png,jpg'],
+        ]);
+        if($validator->fails()){
+            return $this->handleError($validator->errors());
+        }
+        $comment = new Comment();
+        $comment->content = $request->content;
+        $comment->author()->associate(Auth::id());
+        $comment->save();
+        $post = Post::find($id);
+        $post->comments()->attach($comment);
+        return $this->handleResponse($comment,'Comment has been posted with success');
     }
 
 }

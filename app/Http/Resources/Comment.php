@@ -3,9 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Post as PostResource;
+use App\Http\Resources\Reply as ReplyResource;
 
-class User extends JsonResource
+class Comment extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,11 +17,12 @@ class User extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'name'=>$this->name,
-            'description'=>$this->description,
-            'followers'=>$this->followers,
-            'follow'=>$this->follow,
-            'posts'=>PostResource::collection($this->posts->merge($this->sharedPost)),
+            'content'=>$this->content,
+            'author'=>$this->author,
+            'images'=>$this->images,
+            'likers'=>$this->likers,
+            'sharers'=>$this->sharers,
+            'replies'=>ReplyResource::collection($this->replies),
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at
         ];

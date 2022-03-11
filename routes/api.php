@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
 
 
 /*
@@ -27,6 +28,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('user',UserController::class);
     
     Route::get('/post/newsFeed',[PostController::class,'newsFeed'])->name('newsFeed');
+    Route::post('/post/{post}/comment',[PostController::class,'comment'])->name('comment');
     Route::post('/post/{post}/like',[PostController::class,'postLike'])->name('postLike');
     Route::resource('post',PostController::class);
+
+    Route::post('/comment/{comment}/like',[CommentController::class,'commentLike'])->name('commentLike');
+    Route::post('comment/{comment}/reply',[CommentController::class,'reply'])->name('reply');
 });
