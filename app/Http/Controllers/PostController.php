@@ -84,7 +84,6 @@ class PostController extends Controller
         }
         $id_array = $follow->pluck('id');
         $posts = Post::whereIn('user_id',$id_array)->orderBy('created_at','desc')->get();
-        $comment = Comment::whereIn('user_id',$id_array)->orderBy('created_at','desc')->get();
         return $this->handleResponse(PostResource::collection($posts),'Posts fetched with success');
     }
 
