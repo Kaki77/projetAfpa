@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class PostIsShared extends Model
 {
     use HasFactory;
+
+    protected $table = 'post_is_shared';
 }

@@ -12,7 +12,7 @@ function Home(props) {
             <Navbar userID={props.userID} setUserID={props.setUserID}/>
             <div className="mx-3">
                 <Routes>
-                        <Route path="/" element={<NewsFeed loading={props.loading} sessionCheck={props.sessionCheck} loadState={props.loadState}/>}/>
+                        <Route path="/" element={<NewsFeed loading={props.loading} sessionCheck={props.sessionCheck} loadState={props.loadState} userID={props.userID}/>}/>
                         <Route path="/friends" element={<FollowFeed loading={props.loading} sessionCheck={props.sessionCheck} loadState={props.loadState}/>}/>
                         <Route path="/profile/config"/>
                         <Route path="/profile/:id" element={<ProfileFeed loading={props.loading} sessionCheck={props.sessionCheck} userID={props.userID} loadState={props.loadState}/>}/>

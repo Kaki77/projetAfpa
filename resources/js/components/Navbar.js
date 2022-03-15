@@ -24,7 +24,7 @@ function Navbar(props) {
         <button className="relative h-full w-full bg-red-500"><LinkRouter to="/app"><HomeIconSolid/></LinkRouter></button>
         <button className="relative h-full w-full bg-blue-500"><LinkRouter to="/app/friends"><FriendsSolid/></LinkRouter></button>
         <button className="relative h-full w-full bg-green-500"><LinkRouter to={"/app/profile/"+props.userID}><UserCircleSolid/></LinkRouter></button>
-        <button className="relative h-full w-full bg-white"><LinkRouter to="#"><CogIconSolid/></LinkRouter></button>
+        <button className="relative h-full w-full bg-orange-500"><LinkRouter to="#"><CogIconSolid/></LinkRouter></button>
         <button className="relative h-full w-full bg-yellow-500"><LogoutIconSolid logout={logout}/></button>
     </div>
   )

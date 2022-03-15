@@ -26,8 +26,7 @@ class Post extends Model
     }
 
     public function sharers() {
-        return $this->belongsToMany(User::class,'post_is_shared','post_id','user_id')->orderBy('name','asc')->as('sharers');
+        return $this->belongsToMany(User::class,'post_is_shared','post_id','user_id')->orderBy('name','asc')->withTimestamps()->as('sharers');
     }
-
-    
+  
 }

@@ -84,7 +84,27 @@ class PostController extends Controller
         }
         $id_array = $follow->pluck('id');
         $posts = Post::whereIn('user_id',$id_array)->orderBy('created_at','desc')->get();
-        return $this->handleResponse(PostResource::collection($posts),'Posts fetched with success');
+        foreach($posts as $post) {
+            $post->sharer = $post->author;
+            $post->share_date = $post->created_at;
+        }
+        $shared_posts = User::with('sharedPost')->whereIn('id',$id_array)->orderBy('created_at','desc')->get()->pluck('sharedPost','id');
+        $share_collection = collect();
+        foreach($shared_posts as $key=>$shared_post) {
+            foreach($shared_post as $post) {
+                $sharer = User::find($key);
+                $post->sharer = $sharer;
+                foreach($sharer->sharedPost as $share) {
+                    if($share->id == $post->id) {
+                        $post->share_date = $share->sharedPost->created_at;
+                    }
+                }
+                $share_collection->push($post);
+            }
+        }
+        $complete_collection = $posts->concat($share_collection)->sortByDesc('share_date');
+        $posts_array = PostResource::collection($complete_collection);
+        return $this->handleResponse($posts_array,'Posts fetched with success');
     }
 
     public function postLike($id) {
@@ -102,6 +122,22 @@ class PostController extends Controller
         }
         return $this->handleResponse($data,$message);
     }
+
+    public function postShare($id) {
+        $sharers = Post::find($id)->sharers();
+        $share = $sharers->where('user_id',Auth::id())->first();
+        if(!$share) {
+            $sharers->attach(Auth::id());
+            $data = json_encode(true);
+            $message = 'Post has been shared successfuly';
+        }
+        else {
+            $sharers->detach(Auth::id());
+            $data = json_encode(false);
+            $message = 'Post has been unshared successfuly';
+        }
+        return $this->handleResponse($data,$message);
+    } 
 
     public function comment(Request $request,$id) {
         $input = $request->all();

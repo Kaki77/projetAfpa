@@ -31,7 +31,7 @@ function NewsFeed(props) {
             {data ?
                 <>
                 <div>Last Posts</div>
-                {data.map(element=><LittleCard post={element} key={element.id}/>)}
+                {data.map((post,index)=><div className='defautl:my-8 last:mt-8 last:pb-8'><LittleCard post={post} key={index} userID={props.userID}/></div>)}
                 </>
                 : 'There is no posts from people you follow'
             }

@@ -62,6 +62,6 @@ class User extends Authenticatable
     }
 
     public function sharedPost() {
-        return $this->belongsToMany(Post::class,'post_is_shared','user_id','post_id')->orderBy('created_at','desc')->as('sharedPost');
+        return $this->belongsToMany(Post::class,'post_is_shared','user_id','post_id')->withTimestamps()->orderBy('created_at','desc')->as('sharedPost');
     }
 }

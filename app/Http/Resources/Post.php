@@ -15,7 +15,7 @@ class Post extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $array = [
             'id'=>$this->id,
             'content'=>$this->content,
             'author'=>$this->author,
@@ -26,5 +26,14 @@ class Post extends JsonResource
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at
         ];
+        
+        if($this->sharer) {
+            $array['sharer'] = $this->sharer;
+        }
+        if($this->share_date) {
+            $array['share_date'] = $this->share_date;
+        }
+
+        return $array;
     }
 }

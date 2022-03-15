@@ -1,6 +1,6 @@
 import HeartIconOutline from '../icons/outline/HeartIconOutline'
 import CommentIconSolid from '../icons/solid/CommentIconSolid'
-import ShareIconSolid from '../icons/solid/ShareIconSolid'
+import ShareIconOutline from '../icons/outline/ShareIconOutline'
 import Reply from './Reply'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -14,6 +14,8 @@ function LittleCard(props) {
     const [showPostArea, setShowPostArea] = useState(false)
     const [like, setLike] = useState([])
     const [likeCount, setLikeCount] = useState('')
+    const [share, setShare] = useState([])
+    const [shareCount, setShareCount] = useState('')
     const navigate = useNavigate()
     dayjs.extend(relativeTime)
 
@@ -34,6 +36,8 @@ function LittleCard(props) {
     useEffect(() => {
         setLike(props.post.likers.find(e=>e.id==props.userID) ? true : false)
         setLikeCount(props.post.likers.length)
+        setShare(props.post.sharers.find(e=>e.id==props.userID) ? true : false)
+        setShareCount(props.post.sharers.length)
         return () => {
             //
         }
@@ -43,7 +47,7 @@ function LittleCard(props) {
     return (
         <>
         {props.showReplies ? <hr className='my-8 w-full'/> : ''}
-        <div className="border border-slate-500 grid grid-rows-[1fr_max-content_1fr] grid-cols-3 items-center justify-items-center my-8 pt-8 " onClick={()=>navigate('/app/post/'+props.post.id,{replace:true})}>
+        <div className="border border-slate-500 grid grid-rows-[1fr_max-content_1fr] grid-cols-3 items-center justify-items-center pt-8 " onClick={()=>navigate('/app/post/'+props.post.id)}>
             <img className="w-full h-full max-w-[100px] max-h-[100px] rounded-full" src='https://dummyimage.com/100x100.jpg' alt=''/>
             <div>
                {props.post.author.name} #{props.post.author.id}
@@ -72,10 +76,10 @@ function LittleCard(props) {
             </div>
             <div className='relative h-5/6 w-full text-center'>
                 <div className='relative h-1/2 w-1/2 left-1/4'>
-                    <ShareIconSolid/>
+                    <ShareIconOutline state={share}/>
                 </div>
                 <div>
-                    {props.post.sharers.length}
+                    {shareCount}
                 </div>
             </div>
             <div className='relative h-5/6 w-full text-center'>

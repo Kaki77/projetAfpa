@@ -22,6 +22,13 @@ class UserController extends Controller
         if(!$user) {
             return $this->handleError('User not Found');
         }
+        foreach($user->posts as $post) {
+            $post->share_date = $post->created_at;
+        }
+        $shared_posts = $user->sharedPost->pluck('sharedPost')->pluck('created_at','post_id');
+        foreach($user->sharedPost as $shared_post) {
+            $shared_post->share_date = $shared_posts[$shared_post->id];
+        }
         return $this->handleResponse(new UserResource($user),'User fetched with success');
     }
 
@@ -70,6 +77,20 @@ class UserController extends Controller
         $user->avatar = env('UPLOAD_PATH').$imageName;
         $user->save();
         return $this->handleResponse([],'Avatar updated with success');
+    }
+
+    public function changePassword(Request $request) {
+        $input = $request->all();
+        $validator = Validator::make($input,[
+            'token'=>'required',
+            'password'=>'requires',
+            'confirm_password'=>['required','same:password'],
+        ])
+        if($validator->fails()){
+            return $this->handleError($validator->errors());
+        }
+        //todo
+        return $this->handleResponse([],'Password has been updated with success');
     }
 
     public function follow() {

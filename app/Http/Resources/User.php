@@ -15,15 +15,21 @@ class User extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $array = [
             'id'=>$this->id,
             'name'=>$this->name,
             'description'=>$this->description,
             'followers'=>$this->followers,
             'follow'=>$this->follow,
-            'posts'=>PostResource::collection($this->posts->merge($this->sharedPost)),
+            'sharedPosts'=>PostResource::collection($this->sharedPost),
+            'posts'=>PostResource::collection($this->posts),
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at
         ];
+        if($this->posts[0]->share_date){
+            $posts = $this->posts->concat($this->sharedPost)->sortByDesc('share_date');
+            $array['profileFeed'] = PostResource::collection($posts);
+        }
+        return $array;
     }
 }

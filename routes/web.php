@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,8 @@ use App\Http\Controllers\AuthController;
 
 //no conflict with spa
 Route::get('{any_path?}/{any_subpath?}/{any_sub_subpath?}', function () {
-    return view('master');
+    $dark_mode = Auth::id() ?  \App\Models\User::find(Auth::id())->dark_mode : '';
+    return view('master',['dark_mode'=>$dark_mode]);
 });
 
 

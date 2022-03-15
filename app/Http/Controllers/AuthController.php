@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 use Validator;
 
 class AuthController extends Controller
@@ -61,5 +62,13 @@ class AuthController extends Controller
             }
         }
         return $this->handleError('Session is expired',[],'401');
+    }
+
+    public function passwordResetMail(Request $request) {
+        $email = $request->mail;
+        if(User::where('email',$email)->get(){
+            $status = Password::sendResetLink($email);
+        })
+        return $this->handleResponse([],'A link has been send to'.$email.', please check you mails.');
     }
 }

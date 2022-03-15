@@ -34,6 +34,23 @@ function ProfileFeed(props) {
         })
     }
 
+    function showCard(post,index) {
+        if(post.author?.id != props.userID) {
+            return(
+                <div className='border border-black my-8'>
+                    <div className='grid'>
+                        <p className='my-4 text-center col-start-1'>{data.name} has shared :</p>
+                        <p className='my-4 text-center col-start-2'>{dayjs(post.share_date).fromNow()}</p>
+                    </div>
+                    <LittleCard post={post} key={index} userID={props.userID} user={data.name} />
+                </div>
+            )
+        }
+        else {
+            return <LittleCard post={post} key={index} userID={props.userID} user={data.name} />
+        }
+    }
+
     return (
         <>
         {!props.loadState ?
@@ -55,8 +72,8 @@ function ProfileFeed(props) {
             </div>
             {props.userID == id ? <PostArea url={'api/post'}/> : ''}
             <div>
-                {data.posts ? 
-                data.posts.map(post=><LittleCard post={post} key={post.id} userID={props.userID} user={data.name} />) 
+                {data.profileFeed ? 
+                data.profileFeed.map((post,index)=>showCard(post,index)) 
                 : ' This user doesn\'t post something'}
             </div>
             </>

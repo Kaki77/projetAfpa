@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('user',UserController::class);
     
     Route::get('/post/newsFeed',[PostController::class,'newsFeed'])->name('newsFeed');
+    Route::post('/post/{post}/share',[PostController::class,'postShare'])->name('postShare');
     Route::post('/post/{post}/comment',[PostController::class,'comment'])->name('comment');
     Route::post('/post/{post}/like',[PostController::class,'postLike'])->name('postLike');
     Route::resource('post',PostController::class);

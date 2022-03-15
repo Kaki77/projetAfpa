@@ -1,4 +1,5 @@
 module.exports = {
+  darkMode: 'class',
   content: [
     "./resources/**/*.blade.php",
     "./resources/js/**/*.js",
@@ -11,7 +12,7 @@ module.exports = {
       gridTemplateRows:{
         '5-maxContent':'repeat(5,max-content)'
       }
-    },
+    }
   },
   plugins: [],
 }

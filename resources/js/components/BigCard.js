@@ -1,6 +1,6 @@
 import HeartIconOutline from '../icons/outline/HeartIconOutline'
 import CommentIconSolid from '../icons/solid/CommentIconSolid'
-import ShareIconSolid from '../icons/solid/ShareIconSolid'
+import ShareIconOutline from '../icons/outline/ShareIconOutline'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import apiClient from '../axios'
@@ -14,6 +14,8 @@ function BigCard(props) {
     const [data, setData] = useState([])
     const [like, setLike] = useState([])
     const [likeCount, setLikeCount] = useState('')
+    const [share, setShare] = useState([])
+    const [shareCount, setShareCount] = useState('')
     dayjs.extend(relativeTime)
     let {id} = useParams()
 
@@ -34,6 +36,8 @@ function BigCard(props) {
             setData(response.data.data)
             setLike(response.data.data.likers.find(e=>e.id==props.userID) ? true : false)
             setLikeCount(response.data.data.likers.length)
+            setShare(response.data.data.sharers.find(e=>e.id==props.userID) ? true : false)
+            setShareCount(response.data.data.sharers.length)
             console.log(response.data)
             props.loading(false)
         })
@@ -49,6 +53,20 @@ function BigCard(props) {
             else {
                 setLike(false)
                 setLikeCount(likeCount-1)
+            }
+        })
+    }
+
+    function postShare() {
+        apiClient.post(`api/post/${id}/share`)
+        .then(response=>{
+            if(response.data.data == 'true') {
+                setShare(true)
+                setShareCount(shareCount+1)
+            }
+            else {
+                setShare(false)
+                setShareCount(shareCount-1)
             }
         })
     }
@@ -91,10 +109,10 @@ function BigCard(props) {
                 </div>
                 <div className='relative h-5/6 w-full text-center'>
                     <div className='relative h-1/2 w-1/2 left-1/4'>
-                        <ShareIconSolid/>
+                        <ShareIconOutline state={share} share={postShare}/>
                     </div>
                     <div>
-                        {data.sharers?.length}
+                        {shareCount}
                     </div>
                 </div>
                 <div className='relative h-5/6 w-full text-center'>
@@ -110,7 +128,7 @@ function BigCard(props) {
             {data.comments?.length ?
             <>
                 {data.comments?.map((comment,index)=>
-                    <LittleCard key={index} post={comment} showReplies={true} userID={props.userID} />
+                    <div className='defautl:my-8 last:mt-8 last:pb-8'><LittleCard key={index} post={comment} showReplies={true} userID={props.userID} /></div>
                 )}
             </>
             : ''
