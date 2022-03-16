@@ -56,7 +56,7 @@ function Login(props) {
             <button className="text-xl w-24 mb-5 py-1 bg-teal-400 text-white rounded hover:bg-teal-600 transition" type="submit" onClick={login}>Log in</button>
             <br/>
             <Link href="/register">Don't have an account ? Register now !</Link>
-            <Link href="#">Forgot your password ? Click here</Link>
+            <Link href="/reset-password">Forgot your password ? Click here</Link>
         </form>
     );
 }

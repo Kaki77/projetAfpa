@@ -82,14 +82,15 @@ class UserController extends Controller
     public function changePassword(Request $request) {
         $input = $request->all();
         $validator = Validator::make($input,[
-            'token'=>'required',
             'password'=>'requires',
             'confirm_password'=>['required','same:password'],
-        ])
+        ]);
         if($validator->fails()){
             return $this->handleError($validator->errors());
         }
-        //todo
+        $user = User::find(Auth::id());
+        $user->password = bcrypt($input->password);
+        $user->save();
         return $this->handleResponse([],'Password has been updated with success');
     }
 

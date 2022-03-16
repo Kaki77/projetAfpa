@@ -1,0 +1,1 @@
+<p>Here is the <a href="{{env('APP_URL')}}/reset-password-form/{{$token}}">password reset link</a></p>

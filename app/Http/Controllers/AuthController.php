@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\ResetPassword;
+use App\Mail\ResetPasswordMail;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Validator;
 
 class AuthController extends Controller
@@ -65,10 +68,52 @@ class AuthController extends Controller
     }
 
     public function passwordResetMail(Request $request) {
-        $email = $request->mail;
-        if(User::where('email',$email)->get(){
-            $status = Password::sendResetLink($email);
-        })
-        return $this->handleResponse([],'A link has been send to'.$email.', please check you mails.');
+        $input=$request->all();
+        $validator = Validator::make($input,[
+            'mail'=>['required','email']
+        ]);
+        if($validator->fails()){
+            return $this->handleError($validator->errors(),[],'400');
+        }
+        $email = User::where('email',$request->mail)->first();
+        if($email) {
+            $token = Str::random(64);
+            Mail::to($email->email)->send(new ResetPasswordMail($token));
+            ResetPassword::create([
+                'email'=>$email->email,
+                'token'=>$token,
+            ]);
+        }
+        return $this->handleResponse([],'A link has been send to '.$request->mail.', please check you mails.');
+    }
+
+    public function passwordReset(Request $request) {
+        $input = $request->all();
+        $validator = Validator::make($input,[
+            'token'=>['required'],
+            'password'=>['required'],
+            'confirm_password'=>['required','same:password'],
+        ]);
+        if($validator->fails()){
+            return $this->handleError($validator->errors(),[],'400');
+        }
+        $reset = ResetPassword::where('token',$request->token)->first();
+        if($reset) {
+            if($reset->created_at->add(1,'hour')->diffInHours(now()) >= 0) {
+                $user = User::where('email',$reset->email)->first();
+                if($user) {
+                    $user->password = bcrypt($request->password);
+                    $user->save();
+                    return $this->handleResponse([],'Password has been changed with success');
+                }
+                else {
+                    return $this->handleError([],'User not found');
+                }
+            }
+            else {
+                return $this->handleError([],'Token is non valid anymore');
+            }
+        }
+        return $this->handleError([],'You don\'t make a password reset request');
     }
 }
