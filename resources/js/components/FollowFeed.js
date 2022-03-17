@@ -16,7 +16,7 @@ function FollowFeed(props) {
     }, [])
 
     function fetch(controller) {
-        apiClient.get('api/user/follow',{
+        apiClient.get('api/user/followFeed',{
             signal:controller.signal,
         })
         .then(response=>{

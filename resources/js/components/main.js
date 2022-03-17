@@ -35,7 +35,7 @@ function App(){
             })
             .catch(error=>{
                 setLoading(false)
-                if(location.pathname !== '/register' && location.pathname !== '/reset-password-mail' && location.pathname !== '/reset-password-form') {
+                if(location.pathname !== '/register' && location.pathname !== '/reset-password-mail' && !location.pathname.match('/reset-password-form/*')) {
                     navigate(`/?next=${location.pathname}`,{replace:true});
                 }
             })
@@ -45,7 +45,7 @@ function App(){
     return(
         <>
             {loading ? <Spinner/> : ''}
-            {flash ? <Flash/> : ''}
+            {flash ? <Flash setFlash={setFlash}>{flash}</Flash> : ''}
             <Header/>
             <Routes>
                 <Route path="/" element={<Login loading={setLoading} login={setId} sessionCheck={sessionCheck} flash={flash} setFlash={setFlash}/>}/>

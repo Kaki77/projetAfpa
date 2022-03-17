@@ -94,8 +94,24 @@ class UserController extends Controller
         return $this->handleResponse([],'Password has been updated with success');
     }
 
-    public function follow() {
+    public function followFeed() {
         $follow = User::find(Auth::id())->follow()->orderBy('name','asc')->get();
         return $this->handleResponse(UserResource::collection($follow),'Follow fetched with success');
+    }
+
+    public function follow($id) {
+        $followers = User::find($id)->followers();
+        $follow = $followers->where('follower_id',Auth::id())->first();
+        if(!$follow) {
+            $followers->attach(Auth::id());
+            $data = json_encode(true);
+            $message = "Follow is successfull";
+        }
+        else {
+            $followers->detach(Auth::id());
+            $data = json_encode(false);
+            $message = "Unfollow is successfull";
+        }
+        return $this->handleResponse($data,$message);
     }
 }

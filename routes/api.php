@@ -21,10 +21,11 @@ use App\Http\Controllers\CommentController;
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout',[AuthController::class,'logout'])->name('logout');
 
-    Route::get('/user/follow',[UserController::class,'follow'])->name('follow');
+    Route::get('/user/followFeed',[UserController::class,'followFeed'])->name('followFeed');
     Route::get('/user/{user}/profile',[UserController::class,'profile'])->name('profile');
     Route::post('/user/{user}/editDescription',[UserController::class,'changeDescription'])->name('changeDescription');
     Route::post('/user/{user}/editAvatar',[UserController::class,'changeAvatar'])->name('changeAvatar');
+    Route::post('/user/{user}/follow',[UserController::class,'follow'])->name('follow');
     Route::resource('user',UserController::class);
     
     Route::get('/post/newsFeed',[PostController::class,'newsFeed'])->name('newsFeed');

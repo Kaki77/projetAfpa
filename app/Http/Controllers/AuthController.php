@@ -67,6 +67,16 @@ class AuthController extends Controller
         return $this->handleError('Session is expired',[],'401');
     }
 
+    public function checkToken(Request $request) {
+        $token = $request->token;
+        if(ResetPassword::where('token',$token)->first()) {
+            return $this->handleResponse([],'Password reset request is valid. Please fill the form to reset your password.');
+        }
+        else {
+            return $this->handleError([],'Password reset request is invalid or expired.');
+        }
+    }
+
     public function passwordResetMail(Request $request) {
         $input=$request->all();
         $validator = Validator::make($input,[
@@ -104,16 +114,16 @@ class AuthController extends Controller
                 if($user) {
                     $user->password = bcrypt($request->password);
                     $user->save();
-                    return $this->handleResponse([],'Password has been changed with success');
+                    return $this->handleResponse([],'Password has been changed with success.');
                 }
                 else {
-                    return $this->handleError([],'User not found');
+                    return $this->handleError([],'User not found.');
                 }
             }
             else {
-                return $this->handleError([],'Token is non valid anymore');
+                return $this->handleError([],'Password reset request is expired.');
             }
         }
-        return $this->handleError([],'You don\'t make a password reset request');
+        return $this->handleError([],'Password reset request is invalid.');
     }
 }

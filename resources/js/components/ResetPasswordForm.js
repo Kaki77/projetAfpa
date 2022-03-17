@@ -1,14 +1,13 @@
-import {useState} from 'react'
-import { Navigate, useNavigate,useParams } from 'react-router-dom'
+import {useState,useEffect} from 'react'
+import {useNavigate,useParams} from 'react-router-dom'
 import apiClient from '../axios'
+import Button from './Button'
 import ControlledInput from './ControlledInput'
 
-function PasswordResetForm() {
+function PasswordResetForm(props) {
 
-    const [mail, setMail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    const [errorMail, setErrorMail] = useState([])
     const [errorPass, setErrorPass] = useState([])
     const [errorConfirmPass, setErrorConfirmPass] = useState([])
     const navigate = useNavigate()
@@ -16,10 +15,21 @@ function PasswordResetForm() {
 
     useEffect(() => {
         props.sessionCheck()
+        tokenCheck(token)
         return () => {
             //
         }
     }, [])
+
+    function tokenCheck(token) {
+        apiClient.post('/tokenCheck',{
+            token : token,
+        })
+        .catch(error=>{
+            props.setFlash('Your password reset request is invalid or expired')
+            navigate('/')
+        })
+    }
 
     function resetPassword() {
         props.loading(true)
@@ -30,6 +40,8 @@ function PasswordResetForm() {
         })
         .then(response=>{
             console.log(response.data)
+            setPassword('')
+            setConfirmPassword('')
             navigate('/',{replace : true})
         })
         .catch(error=>{
@@ -43,12 +55,11 @@ function PasswordResetForm() {
     }
 
     return (
-        <div>
+        <div className='text-center'>
             <h1 className='text-4xl mb-5'>Reset Password</h1>
-            <ControlledInput label={true} title="Mail" type="text" value={mail} setFunction={setMail} errors={errorMail}/>
             <ControlledInput label={true} title="Password" type="password" value={password} setFunction={setPassword} errors={errorPass}/>
             <ControlledInput label={true} title="Confirm Password" type="password" value={confirmPassword} setFunction={setConfirmPassword} errors={errorConfirmPass}/>
-            <button className="text-xl px-5 mb-5 py-1 bg-teal-400 text-white rounded hover:bg-teal-600 transition" onClick={resetPassword}>Reset Password</button>
+            <Button className="text-xl mb-5" onClick={resetPassword}>Reset Password</Button>
         </div>
     )
 }

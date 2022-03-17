@@ -4,6 +4,7 @@ import apiClient from "../axios"
 import {useNavigate} from 'react-router-dom'
 import PaperAirplaneIconSolid from "../icons/solid/PaperAirplaneIconSolid"
 import PhotographIconSolid from "../icons/solid/PhotographIconSolid"
+import Button from "./Button"
 
 function PostArea(props) {
 
@@ -53,8 +54,8 @@ function PostArea(props) {
                     : ''
                     }
                 </div>
-                <button className="text-center h-12 w-5/6 px-5 py-1 bg-teal-400 text-white rounded hover:bg-teal-600 transition col-start-1" onClick={()=>fileInput.current.click()}><PhotographIconSolid/></button>
-                <button className="text-center h-12 w-5/6 px-5 py-1 bg-teal-400 text-white rounded hover:bg-teal-600 transition col-start-2" onClick={sendPost} type="submit"><PaperAirplaneIconSolid/></button>
+                <Button className="text-center h-12 w-5/6" onClick={()=>fileInput.current.click()}><PhotographIconSolid/></Button>
+                <Button className="text-center h-12 w-5/6" onClick={sendPost}><PaperAirplaneIconSolid/></Button>
             </div>
         </div>
     )

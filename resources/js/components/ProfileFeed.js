@@ -6,6 +6,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
 import LittleCard from './LittleCard'
 import PostArea from './PostArea'
+import Button from './Button'
 
 function ProfileFeed(props) {
 
@@ -51,11 +52,20 @@ function ProfileFeed(props) {
         }
     }
 
+    function follow() {
+        apiClient.post(`api/user/${id}/follow`)
+        .then(response=>{
+            console.log(response.data)
+            props.setFlash(response.data.message)
+            setData({...data,user_is_following : response.data.data})
+        })
+    }
+
     return (
         <>
         {!props.loadState ?
             <>
-            <div className="grid grid-rows-5-maxContent justify-content-center items-center text-center">
+            <div className="grid grid-rows-6-maxContent justify-content-center items-center text-center">
                 <img className="mx-auto w-full h-full max-w-[100px] max-h-[100px] rounded-full" src='https://dummyimage.com/100x100.jpg' alt=''/>
                 <div>
                     {data.name} #{data.id}
@@ -65,6 +75,16 @@ function ProfileFeed(props) {
                 </div>
                 <div>
                     Registered on {dayjs(data.created_at).format('MMMM Do[,] YYYY')}
+                </div>
+                <div>
+                    {data.id != props.userID ? 
+                        <>
+                            <Button className="text-center w-1/2 my-3" onClick={follow}>
+                                {data.user_is_following == 'true' ? 'Unfollow' : 'Follow'}
+                            </Button>
+                        </>
+                        : ''
+                    }
                 </div>
                 <div>
                     {data.description}

@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Post as PostResource;
+use Auth;
 
 class User extends JsonResource
 {
@@ -23,6 +24,7 @@ class User extends JsonResource
             'follow'=>$this->follow,
             'sharedPosts'=>PostResource::collection($this->sharedPost),
             'posts'=>PostResource::collection($this->posts),
+            'user_is_following'=>$this->followers->find(Auth::id()) ? json_encode(true) : json_encode(false),
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at
         ];

@@ -10,7 +10,7 @@ module.exports = {
         '1/10':'10%'
       },
       gridTemplateRows:{
-        '5-maxContent':'repeat(5,max-content)'
+        '6-maxContent':'repeat(6,max-content)'
       }
     }
   },

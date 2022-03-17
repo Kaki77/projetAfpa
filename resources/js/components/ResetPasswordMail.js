@@ -1,9 +1,10 @@
-import {useState} from 'react'
+import {useState,useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import ControlledInput from './ControlledInput'
 import apiClient from '../axios'
+import Button from './Button'
 
-function ResetPasswordMail() {
+function ResetPasswordMail(props) {
     
     const navigate = useNavigate()
     const [mail, setMail] = useState('')
@@ -18,11 +19,12 @@ function ResetPasswordMail() {
 
     function sendResetPasswordMail() {
         props.loading(true)
-        apiClient.post('/password-reset',{
-            email:mail,
+        apiClient.post('/mail-reset-password',{
+            mail:mail,
         })
         .then(response=>{
             console.log(response.data)
+            props.setFlash(response.data.message)
             navigate('/',{replace : true})
         })
         .finally(()=>{
@@ -34,7 +36,7 @@ function ResetPasswordMail() {
         <div className="text-center">
             <h1 className='text-4xl mb-5'>Reset Password</h1>
             <ControlledInput label={true} title="Mail" type="mail" value={mail} setFunction={setMail} errors={errorMail}/>
-            <button className="text-xl mb-5 py-1 px-5 bg-teal-400 text-white rounded hover:bg-teal-600 transition" onClick={sendResetPasswordMail}>Reset Password</button>
+            <Button className="text-xl mb-5" onClick={sendResetPasswordMail}>Reset Password</Button>
         </div>
     )
 }
