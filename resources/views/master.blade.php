@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="/css/app.css" />
     </head>
     <body>
-        <div id="root" class="mx-auto min-h-screen dark:bg-slate-700 dark:text-white flex flex-col"></div>
+        <div id="root" class="md:w-4/6 mx-auto min-h-screen dark:bg-slate-700 dark:text-white flex flex-col"></div>
     </body>
     <script>
 		window.Laravel = {!! json_encode([

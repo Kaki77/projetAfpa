@@ -42,7 +42,7 @@ function PostArea(props) {
                 :'' 
             }
             <div className="grid grid-rows-[auto_max-content_max-content] grid-cols-2 gap-2 justify-items-center">
-                <input ref={fileInput} className="hidden" type='file' onChange={()=>setKey(-key)} multiple/>
+                <input ref={fileInput} className="hidden" type='file' onChange={()=>setKey(-key)} accept="image/*" multiple/>
                 <div className="row-start-1 col-span-2">
                     <ControlledTextArea name='post' placeholder='Type something...' cols='32' rows='4' errors={errorPost} value={post} setFunction={setPost}/>
                 </div>

@@ -19,7 +19,7 @@ function Home(props) {
                         <Route path="/post/:id" element={<BigCard loading={props.loading} sessionCheck={props.sessionCheck} userID={props.userID} loadState={props.loadState} setFlash={props.setFlash}/>}/>
                 </Routes>
             </div>
-            <div className="mt-20">
+            <div className="mt-[120px]">
                 <Navbar userID={props.userID} setUserID={props.setUserID}/>
             </div>
         </>
