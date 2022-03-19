@@ -36,7 +36,7 @@ function PostArea(props) {
     }
 
     return (
-        <div>
+        <div className="my-8">
             {props.title ?
                 <div className="w-full text-center">{props.title}</div>
                 :'' 

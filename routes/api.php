@@ -22,9 +22,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout',[AuthController::class,'logout'])->name('logout');
 
     Route::get('/user/followFeed',[UserController::class,'followFeed'])->name('followFeed');
+    Route::post('/user/editDescription',[UserController::class,'changeDescription'])->name('changeDescription');
+    Route::post('/user/editAvatar',[UserController::class,'changeAvatar'])->name('changeAvatar');
+    Route::post('/user/editPassword',[UserController::class,'changePassword'])->name('changePassword');
     Route::get('/user/{user}/profile',[UserController::class,'profile'])->name('profile');
-    Route::post('/user/{user}/editDescription',[UserController::class,'changeDescription'])->name('changeDescription');
-    Route::post('/user/{user}/editAvatar',[UserController::class,'changeAvatar'])->name('changeAvatar');
     Route::post('/user/{user}/follow',[UserController::class,'follow'])->name('follow');
     Route::resource('user',UserController::class);
     

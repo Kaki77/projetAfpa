@@ -20,6 +20,7 @@ class User extends JsonResource
             'id'=>$this->id,
             'name'=>$this->name,
             'description'=>$this->description,
+            'avatar'=>$this->avatar,
             'followers'=>$this->followers,
             'follow'=>$this->follow,
             'sharedPosts'=>PostResource::collection($this->sharedPost),
@@ -28,7 +29,7 @@ class User extends JsonResource
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at
         ];
-        if($this->posts[0]->share_date){
+        if(count($this->posts) > 0 && $this->posts[0]->share_date){
             $posts = $this->posts->concat($this->sharedPost)->sortByDesc('share_date');
             $array['profileFeed'] = PostResource::collection($posts);
         }

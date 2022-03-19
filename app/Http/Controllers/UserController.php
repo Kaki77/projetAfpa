@@ -10,14 +10,12 @@ use Auth;
 
 class UserController extends Controller
 {
-    public function index()
-    {
+    public function index() {
         $users = User::all()->orderBy('name','asc');
         return $this->handleResponse(UserResource::collection($users),'Users fetched with success');
     }
 
-    public function show($id)
-    {
+    public function show($id) {
         $user = User::find($id);
         if(!$user) {
             return $this->handleError('User not Found');
@@ -32,8 +30,7 @@ class UserController extends Controller
         return $this->handleResponse(new UserResource($user),'User fetched with success');
     }
 
-    public function destroy($id)
-    {
+    public function destroy($id) {
         $user = User::find($id);
         if($user) {
             return $this->handleError('User not found');
@@ -42,10 +39,9 @@ class UserController extends Controller
         return $this->handleResponse([],'User deleted with success');
     }
 
-    public function changeDescription(Request $request,$id)
-    {
-        $user = User::find($id);
-        if(!$user || $id != Auth::id()) {
+    public function changeDescription(Request $request) {
+        $user = User::find(Auth::id());
+        if(!$user) {
             return $this->handleError('An error has occured, please try later');
         }
         $input = $request->all();
@@ -55,14 +51,14 @@ class UserController extends Controller
         if($validator->fails()) {
             return $this->handleError($validator->errors());
         }
-        $user->description = $input['description'];
+        $user->description = $request->description;
         $user->save();
         return $this->handleResponse([],'Description updated with success');
     }
 
-    public function changeAvatar(Request $request,$id) {
-        $user = User::find($id);
-        if(!$user || $id != Auth::id()) {
+    public function changeAvatar(Request $request) {
+        $user = User::find(Auth::id());
+        if(!$user) {
             return $this->handleError('An error has occured, please try later');
         }
         $input = $request->all();
@@ -72,26 +68,35 @@ class UserController extends Controller
         if($validator->fails()){
             return $this->handleError($validator->errors());
         }
-        $imageName=time().'.'.$request->image->getClientOriginalExtension();
-        $request->image->move(public_path('uploads'),$imageName);
+        $imageName=time().'.'.$request->avatar->getClientOriginalExtension();
+        $request->avatar->move(public_path('uploads'),$imageName);
         $user->avatar = env('UPLOAD_PATH').$imageName;
         $user->save();
         return $this->handleResponse([],'Avatar updated with success');
     }
 
     public function changePassword(Request $request) {
+        $user = User::find(Auth::id());
+        if(!$user) {
+            return $this->handleError('An error has occured, please try later');
+        }
         $input = $request->all();
         $validator = Validator::make($input,[
-            'password'=>'requires',
+            'old_password'=>['required'],
+            'password'=>['required'],
             'confirm_password'=>['required','same:password'],
         ]);
         if($validator->fails()){
-            return $this->handleError($validator->errors());
+            return $this->handleError($validator->errors(),[],'400');
         }
-        $user = User::find(Auth::id());
-        $user->password = bcrypt($input->password);
-        $user->save();
-        return $this->handleResponse([],'Password has been updated with success');
+        if(password_verify($request->old_password,$user->password)) {
+            $user->password = bcrypt($request->password);
+            $user->save();
+            return $this->handleResponse([],'Password has been updated with success');
+        }
+        else {
+            return $this->handleError('Your old password is not correct',[],'401');
+        }
     }
 
     public function followFeed() {

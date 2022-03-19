@@ -66,7 +66,7 @@ function ProfileFeed(props) {
         {!props.loadState ?
             <>
             <div className="grid grid-rows-6-maxContent justify-content-center items-center text-center">
-                <img className="mx-auto w-full h-full max-w-[100px] max-h-[100px] rounded-full" src='https://dummyimage.com/100x100.jpg' alt=''/>
+                <img className="mx-auto w-full h-full max-w-[100px] max-h-[100px] rounded-full" src={data.avatar ? data.avatar : 'https://dummyimage.com/100x100.jpg'} alt=''/>
                 <div>
                     {data.name} #{data.id}
                 </div>
@@ -94,7 +94,7 @@ function ProfileFeed(props) {
             <div>
                 {data.profileFeed ? 
                 data.profileFeed.map((post,index)=>showCard(post,index)) 
-                : ' This user doesn\'t post something'}
+                : <div className='text-center text-xl my-8'>No post available</div>}
             </div>
             </>
         :''
