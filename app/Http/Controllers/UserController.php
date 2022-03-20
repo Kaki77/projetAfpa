@@ -54,7 +54,7 @@ class UserController extends Controller
         }
         $input = $request->all();
         $validator = Validator::make($input,[
-            'description'=>['max:250'],
+            'description'=>['required','max:250'],
         ]);
         if($validator->fails()) {
             return $this->handleError($validator->errors());

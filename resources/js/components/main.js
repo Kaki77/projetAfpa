@@ -20,27 +20,25 @@ function App(){
     const navigate = useNavigate()
 
     function sessionCheck(callback=null,controller=null) {
-        if(location.pathname !== '/') {
-            apiClient.post('/sessionCheck')
-            .then(response=>{
-                setId(response.data.data)
-                if(location.pathname == '/' || location.pathname == '/register' || location.pathname == '/reset-password-mail' || location.pathname == '/reset-password-form') {
-                    navigate('/app',{replace:true});
+        apiClient.post('/sessionCheck')
+        .then(response=>{
+            setId(response.data.data)
+            if(location.pathname == '/' || location.pathname == '/register' || location.pathname == '/reset-password-mail' || location.pathname == '/reset-password-form') {
+                navigate('/app',{replace:true});
+            }
+            else {
+                if(callback && controller) {
+                    callback(controller)
                 }
-                else {
-                    if(callback && controller) {
-                        callback(controller)
-                    }
-                }
-            })
-            .catch(error=>{
-                setLoading(false)
-                if(location.pathname !== '/register' && location.pathname !== '/reset-password-mail' && !location.pathname.match('/reset-password-form/*')) {
-                    navigate(`/?next=${location.pathname}`,{replace:true});
-                }
-            })
-        }   
-    }
+            }
+        })
+        .catch(error=>{
+            setLoading(false)
+            if(location.pathname !== '/' && location.pathname !== '/register' && location.pathname !== '/reset-password-mail' && !location.pathname.match('/reset-password-form/*')) {
+                navigate(`/?next=${location.pathname}`,{replace:true});
+            }
+        })
+    }   
 
     return(
         <>

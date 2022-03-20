@@ -8,6 +8,7 @@ import {useState,useEffect} from 'react'
 import {useParams,Link} from 'react-router-dom'
 import LittleCard from './LittleCard'
 import PostArea from './PostArea'
+import ImageContainer from '../ImageContainer'
 
 function BigCard(props) {
 
@@ -82,14 +83,13 @@ function BigCard(props) {
                 </div>
                 <div></div>
                 <div className="col-span-full py-8 w-full px-5">
-                    {data.content}
+                    <div>
+                        {data.content}
+                    </div>
                     <br/>
                     <br/>
                         {data.images ?
-                            data.images.map((image,index)=>
-                                <img key={index} className="mx-auto w-full h-full max-h-[100px]" src={image.url} alt=''/>
-                            )
-                            : ''
+                            <ImageContainer images={data.images} containerId={data.id}/> :''
                         }
                 </div>
                 <div className='text-center'>

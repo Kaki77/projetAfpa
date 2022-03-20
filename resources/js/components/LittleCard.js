@@ -8,6 +8,7 @@ import {useNavigate} from 'react-router-dom'
 import {useState,useEffect} from 'react'
 import apiClient from '../axios'
 import PostArea from './PostArea'
+import ImageContainer from '../ImageContainer'
 
 function LittleCard(props) {
 
@@ -47,23 +48,22 @@ function LittleCard(props) {
     return (
         <>
         {props.showReplies ? <hr className='my-8 w-full'/> : ''}
-        <div className="border border-slate-500 grid grid-rows-[1fr_max-content_1fr] grid-cols-3 items-center justify-items-center pt-8 " onClick={()=>navigate('/app/post/'+props.post.id)}>
+        <div className="border border-slate-500 grid grid-rows-[1fr_max-content_1fr] grid-cols-3 items-center justify-items-center pt-8 ">
             <img className="w-full h-full max-w-[100px] max-h-[100px] rounded-full" src='https://dummyimage.com/100x100.jpg' alt=''/>
             <div>
-               {props.post.author.name} #{props.post.author.id}
+                {props.post.author.name} #{props.post.author.id}
             </div>
             <div>
                 {dayjs(props.post.created_at).fromNow()}
             </div>
             <div className="col-span-full py-8 w-full px-5">
-               {props.post.content}
-               <br/>
-               <br/>
-                {props.post.images ?
-                    props.post.images.map((image,index)=>
-                        <img key={index} className="mx-auto w-full h-full max-h-[100px]" src={image.url} alt=''/>
-                    )
-                    : ''
+                <div onClick={()=>navigate('/app/post/'+props.post.id)}>
+                    {props.post.content}
+                    <br/>
+                    <br/>
+                </div>
+                {props.post.images.length ?
+                    <ImageContainer images={props.post.images} containerId={props.post.id}/> :''
                 }
             </div> 
             <div className='relative h-5/6 w-full text-center' onClick={props.showReplies ? ()=>setShowPostArea(!showPostArea) : ()=>''}>

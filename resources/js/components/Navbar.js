@@ -21,7 +21,7 @@ function Navbar(props) {
   }
 
   return (
-    <div className="flex flex-row h-[70px] bg-teal-500 fixed bottom-0 w-full md:w-4/6">
+    <div className="flex flex-row h-[70px] bg-teal-500 fixed bottom-0 w-full md:w-4/6 z-50">
         <button className="relative h-full w-full bg-red-500"><LinkRouter to="/app"><HomeIconSolid/></LinkRouter></button>
         <button className="relative h-full w-full bg-blue-500"><LinkRouter to="/app/friends"><FriendsSolid/></LinkRouter></button>
         <button className="relative h-full w-full bg-green-500"><LinkRouter to={"/app/profile/"+props.userID}><UserCircleSolid/></LinkRouter></button>
