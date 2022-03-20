@@ -48,7 +48,7 @@ function ProfileFeed(props) {
             )
         }
         else {
-            return <LittleCard post={post} key={index} userID={props.userID} user={data.name} />
+            return <div className='my-8'><LittleCard post={post} key={index} userID={props.userID} user={data.name} /></div>
         }
     }
 

@@ -33,21 +33,23 @@ function Register(props) {
             confirm_password:ConfirmPassword
         })
         .then(response=>{
+            console.log(response.data);
             setName('')                    
             setMail('')
             setPassword('')
             setConfirmPassword('')
             props.flash('You have been registered with success. Now you can log in with your credentials.')
-            navigate('/')
+            navigate('/',{replace : true})
         })
         .catch(error=>{
-            if(error.response.status=='400'){
+            console.log(error.response);
+            if(error.response.status =='400') {
                 error.response.data.message.name ? setErrorName(error.response.data.message.name) : setErrorName([])
                 error.response.data.message.email ? setErrorMail(error.response.data.message.email) : setErrorMail([])
                 error.response.data.message.password ? setErrorPass(error.response.data.message.password) : setErrorPass([])
                 error.response.data.message.confirm_password ? setErrorConfirmPass(error.response.data.message.confirm_password) : setErrorConfirmPass([])
             } 
-            else if(error.response.status=='401'){
+            else if(error.response.status =='401') {
                 setErrorMail([error.response.data.message])
             }
         })

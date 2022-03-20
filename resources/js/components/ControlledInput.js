@@ -19,12 +19,11 @@ function ControlledInput(props){
                 value={props.value}
                 onChange={e=>props.setFunction(e.target.value)}
             />
-            {props.errors.map((element,index)=>
+            {props.errors.map((error,index)=>
                 <p key={index} className='text-sm text-red-400 italic'>
-                    {element}
+                    {error}
                 </p>
-                )
-            }
+            )}
         </div>
     )
 }

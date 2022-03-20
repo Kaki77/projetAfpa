@@ -39,6 +39,14 @@ class UserController extends Controller
         return $this->handleResponse([],'User deleted with success');
     }
 
+    public function searchUser($name) {
+        $users = User::where('name',$name)->where('id','!=',Auth::id())->get();
+        if(count($users)<1) {
+            return $this->handleError("No users found",[],'404');
+        }
+        return $this->handleResponse(UserResource::collection($users),'Users fetched with success');
+    }
+
     public function changeDescription(Request $request) {
         $user = User::find(Auth::id());
         if(!$user) {
