@@ -8,7 +8,7 @@ import {useState,useEffect} from 'react'
 import {useParams,Link} from 'react-router-dom'
 import LittleCard from './LittleCard'
 import PostArea from './PostArea'
-import ImageContainer from '../ImageContainer'
+import ImageContainer from './ImageContainer'
 
 function BigCard(props) {
 
@@ -69,6 +69,9 @@ function BigCard(props) {
                 setShare(false)
                 setShareCount(shareCount-1)
             }
+        })
+        .catch(error=>{
+            props.setFlash(error.response.data.message)
         })
     }
 

@@ -73,7 +73,7 @@ class AuthController extends Controller
             return $this->handleResponse([],'Password reset request is valid. Please fill the form to reset your password.');
         }
         else {
-            return $this->handleError([],'Password reset request is invalid or expired.');
+            return $this->handleError('Password reset request is invalid or expired.',[],'401');
         }
     }
 
@@ -117,13 +117,13 @@ class AuthController extends Controller
                     return $this->handleResponse([],'Password has been changed with success.');
                 }
                 else {
-                    return $this->handleError([],'User not found.');
+                    return $this->handleError('User not found.',[],'404');
                 }
             }
             else {
-                return $this->handleError([],'Password reset request is expired.');
+                return $this->handleError('Password reset request is expired.',[],'401');
             }
         }
-        return $this->handleError([],'Password reset request is invalid.');
+        return $this->handleError('Password reset request is invalid.',[],'401');
     }
 }

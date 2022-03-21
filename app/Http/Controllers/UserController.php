@@ -18,7 +18,7 @@ class UserController extends Controller
     public function show($id) {
         $user = User::find($id);
         if(!$user) {
-            return $this->handleError('User not Found');
+            return $this->handleError('User not Found',[],'404');
         }
         foreach($user->posts as $post) {
             $post->share_date = $post->created_at;
@@ -33,7 +33,7 @@ class UserController extends Controller
     public function destroy($id) {
         $user = User::find($id);
         if($user) {
-            return $this->handleError('User not found');
+            return $this->handleError('User not found',[],'404');
         }
         $user->delete();
         return $this->handleResponse([],'User deleted with success');
@@ -50,7 +50,7 @@ class UserController extends Controller
     public function changeDescription(Request $request) {
         $user = User::find(Auth::id());
         if(!$user) {
-            return $this->handleError('An error has occured, please try later');
+            return $this->handleError('An error has occured, please try later',[],'500');
         }
         $input = $request->all();
         $validator = Validator::make($input,[
@@ -67,7 +67,7 @@ class UserController extends Controller
     public function changeAvatar(Request $request) {
         $user = User::find(Auth::id());
         if(!$user) {
-            return $this->handleError('An error has occured, please try later');
+            return $this->handleError('An error has occured, please try later',[],'500');
         }
         $input = $request->all();
         $validator = Validator::make($input,[
@@ -86,7 +86,7 @@ class UserController extends Controller
     public function changePassword(Request $request) {
         $user = User::find(Auth::id());
         if(!$user) {
-            return $this->handleError('An error has occured, please try later');
+            return $this->handleError('An error has occured, please try later',[],'500');
         }
         $input = $request->all();
         $validator = Validator::make($input,[

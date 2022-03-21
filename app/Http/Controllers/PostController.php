@@ -57,7 +57,7 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         if(!$post) {
-            return $this->handleError('Post not found');
+            return $this->handleError('Post not found',[],('404'));
         }
         return $this->handleResponse(new PostResource($post),'Post found');
     }
@@ -71,7 +71,7 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         if(!$post) {
-            return $this->handleError('Post not found');
+            return $this->handleError('Post not found',[],'404');
         }
         $post->delete();
         return $this->handleResponse([],'Post deleted with success');
@@ -124,7 +124,11 @@ class PostController extends Controller
     }
 
     public function postShare($id) {
-        $sharers = Post::find($id)->sharers();
+        $post = Post::find($id);
+        if(User::find(Auth::id())->follow()->where('user_id',$post->author->id)) {
+            return $this->handleError('You need to follow this user to share his post',[],'401');
+        }
+        $sharers = $post->sharers();
         $share = $sharers->where('user_id',Auth::id())->first();
         if(!$share) {
             $sharers->attach(Auth::id());

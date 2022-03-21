@@ -36,7 +36,7 @@ function ProfileFeed(props) {
     }
 
     function showCard(post,index) {
-        if(post.author?.id != props.userID) {
+        if(post.author?.id != data.id) {
             return(
                 <div className='border border-black my-8'>
                     <div className='grid'>

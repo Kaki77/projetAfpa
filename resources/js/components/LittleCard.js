@@ -8,7 +8,7 @@ import {useNavigate} from 'react-router-dom'
 import {useState,useEffect} from 'react'
 import apiClient from '../axios'
 import PostArea from './PostArea'
-import ImageContainer from '../ImageContainer'
+import ImageContainer from './ImageContainer'
 
 function LittleCard(props) {
 
@@ -63,7 +63,7 @@ function LittleCard(props) {
                     <br/>
                 </div>
                 {props.post.images.length ?
-                    <ImageContainer images={props.post.images} containerId={props.post.id}/> :''
+                    <ImageContainer images={props.post.images} containerId={props.post.sharer ? props.post.sharer?.id : props.post.id}/> :''
                 }
             </div> 
             <div className='relative h-5/6 w-full text-center' onClick={props.showReplies ? ()=>setShowPostArea(!showPostArea) : ()=>''}>
@@ -92,7 +92,7 @@ function LittleCard(props) {
             </div>
         </div>
         {showPostArea ?
-                <div className='border border-black p-5 relative before:block before:absolute before:bottom-full before:left-2/4 before:w-[3px] before:h-8 before:bg-black'>
+                <div className='border border-black p-5 my-8 relative before:block before:absolute before:bottom-full before:left-2/4 before:w-[3px] before:h-8 before:bg-black'>
                     <PostArea url={`api/comment/${props.post.id}/reply`} />
                 </div>
                 :''
