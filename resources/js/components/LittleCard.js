@@ -48,7 +48,7 @@ function LittleCard(props) {
     return (
         <>
         {props.showReplies ? <hr className='my-8 w-full'/> : ''}
-        <div className="border border-slate-500 grid grid-rows-[1fr_max-content_1fr] grid-cols-3 items-center justify-items-center pt-8 ">
+        <div className="border border-slate-500 rounded-lg grid grid-rows-[1fr_max-content_1fr] grid-cols-3 items-center justify-items-center pt-8 ">
             <img className="w-full h-full max-w-[100px] max-h-[100px] rounded-full" src='https://dummyimage.com/100x100.jpg' alt=''/>
             <div>
                 {props.post.author.name} #{props.post.author.id}

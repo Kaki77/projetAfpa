@@ -32,7 +32,7 @@ function NewsFeed(props) {
     function showCard(post,index) {
         if(post.sharer.id != post.author.id) {
             return(
-                <div className='border border-black my-8'>
+                <div className='border border-black my-8 rounded-lg'>
                     <div className='grid'>
                         <p className='my-4 text-center col-start-1'>{post.sharer.name} has shared :</p>
                         <p className='my-4 text-center col-start-2'>{dayjs(post.share_date).fromNow()}</p>
