@@ -21,12 +21,35 @@ function Navbar(props) {
   }
 
   return (
-    <div className="flex flex-row h-[70px] bg-teal-500 fixed bottom-0 w-full md:w-4/6 z-50">
-        <button className="relative h-full w-full bg-red-500"><LinkRouter to="/app"><HomeIconSolid/></LinkRouter></button>
-        <button className="relative h-full w-full bg-blue-500"><LinkRouter to="/app/friends"><FriendsSolid/></LinkRouter></button>
-        <button className="relative h-full w-full bg-green-500"><LinkRouter to={"/app/profile/"+props.userID}><UserCircleSolid/></LinkRouter></button>
-        <button className="relative h-full w-full bg-orange-500"><LinkRouter to="/app/profile/settings"><CogIconSolid/></LinkRouter></button>
-        <button className="relative h-full w-full bg-yellow-500"><LogoutIconSolid logout={logout}/></button>
+    <div id="navbar" className="flex flex-row h-[70px] bg-blue-500 fixed bottom-0 w-full md:w-4/6 z-50 text-black">
+        <button className="relative h-full w-full">
+          <LinkRouter to="/app">
+            <HomeIconSolid/>
+            <p>Home</p>
+          </LinkRouter>
+        </button>
+        <button className="relative h-full w-full">
+          <LinkRouter to="/app/friends">
+            <FriendsSolid/>
+            <p>Friends</p>
+          </LinkRouter>
+        </button>
+        <button className="relative h-full w-full">
+          <LinkRouter to={"/app/profile/"+props.userID}>
+            <UserCircleSolid/>
+            <p>Profile</p>
+          </LinkRouter>
+        </button>
+        <button className="relative h-full w-full">
+          <LinkRouter to="/app/profile/settings">
+            <CogIconSolid/>
+            <p>Settings</p>
+          </LinkRouter>
+        </button>
+        <button className="relative h-full w-full">
+          <LogoutIconSolid logout={logout}/>
+          <p>Log out</p>
+        </button>
     </div>
   )
 }

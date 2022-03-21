@@ -97,7 +97,7 @@ function SettingsFeed(props) {
             <hr className='my-8 w-full'/>
             <div>
                 <h2 className="text-xl">Change my Avatar</h2>
-                <input className="w-4/5 my-5 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:text-white file:font-semibold file:bg-teal-400 hover:file:bg-teal-600 file:transition" type="file" ref={avatarInput} accept="image/*"/>
+                <input className="w-4/5 my-5 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:text-white file:font-semibold file:bg-blue-500 hover:file:bg-teal-600 file:transition" type="file" ref={avatarInput} accept="image/*"/>
                 {errorAvatar.map((element,index)=>
                     <p key={index} className='text-sm text-red-400 italic'>
                         {element}

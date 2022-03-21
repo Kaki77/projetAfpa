@@ -2,7 +2,7 @@ import {HomeIcon} from '@heroicons/react/solid'
 
 function HomeIconSolid() {
   return (
-    <HomeIcon className="absolute h-full w-full top-0 bottom-0" />
+    <HomeIcon className="h-4/6 w-4/6" />
   )
 }
 

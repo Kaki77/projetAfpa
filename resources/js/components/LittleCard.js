@@ -48,15 +48,16 @@ function LittleCard(props) {
     return (
         <>
         {props.showReplies ? <hr className='my-8 w-full'/> : ''}
-        <div className="border border-slate-500 rounded-lg grid grid-rows-[1fr_max-content_1fr] grid-cols-3 items-center justify-items-center pt-8 ">
-            <img className="w-full h-full max-w-[100px] max-h-[100px] rounded-full" src='https://dummyimage.com/100x100.jpg' alt=''/>
+        <div className="border border-slate-500 rounded-lg grid grid-rows-[1fr_max-content_max-content_max-content_1fr] grid-cols-3 items-center justify-items-center pt-8 ">
+            <img className="w-full h-full max-w-[48px] max-h-[48px] rounded-full" src={props.post.author?.avatar ? props.post.author?.avatar : 'https://dummyimage.com/100x100.jpg'} alt=''/>
             <div>
                 {props.post.author.name} #{props.post.author.id}
             </div>
             <div>
                 {dayjs(props.post.created_at).fromNow()}
             </div>
-            <div className="col-span-full py-8 w-full px-5">
+            <hr className='col-span-full my-4 w-11/12'/>
+            <div className="col-span-full py-5 w-full px-8">
                 <div onClick={()=>navigate('/app/post/'+props.post.id)}>
                     {props.post.content}
                     <br/>
@@ -65,7 +66,8 @@ function LittleCard(props) {
                 {props.post.images.length ?
                     <ImageContainer images={props.post.images} containerId={props.post.sharer ? props.post.sharer?.id : props.post.id}/> :''
                 }
-            </div> 
+            </div>
+            <hr className='col-span-full my-4 w-11/12'/>
             <div className='relative h-5/6 w-full text-center' onClick={props.showReplies ? ()=>setShowPostArea(!showPostArea) : ()=>''}>
                 <div className='relative h-1/2 w-1/2 left-1/4'>
                     <CommentIconSolid/>

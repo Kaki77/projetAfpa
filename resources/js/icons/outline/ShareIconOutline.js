@@ -2,7 +2,7 @@ import {ShareIcon} from '@heroicons/react/outline'
 
 function ShareIconOutline(props) {
   return (
-    <ShareIcon className={`absolute h-full w-full top-0 bottom-0 transition ${props.state ? ' fill-black' : 'fill-transparent'}`} onClick={()=>props.share ? props.share() : ''} />
+    <ShareIcon className={`h-full w-full transition ${props.state ? 'fill-black dark:fill-white' : 'fill-transparent'}`} onClick={()=>props.share ? props.share() : ''} />
   )
 }
 

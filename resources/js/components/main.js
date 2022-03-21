@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,createContext, useMemo } from 'react'
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom'
 import apiClient from '../axios'
 import Home from './Home'
@@ -10,6 +10,10 @@ import ResetPasswordMail from './ResetPasswordMail'
 import ResetPasswordForm from './ResetPasswordForm'
 import Header from './Header'
 
+export const DarkContext = createContext({
+    darkMode : null,
+    setDarkMode : {}
+})
 
 function App(){
 

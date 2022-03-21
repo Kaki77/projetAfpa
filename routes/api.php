@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user/followFeed',[UserController::class,'followFeed'])->name('followFeed');
     Route::post('/user/editDescription',[UserController::class,'changeDescription'])->name('changeDescription');
     Route::post('/user/editAvatar',[UserController::class,'changeAvatar'])->name('changeAvatar');
+    Route::post('/user/changeDarkMode',[UserController::class,'changeDarkMode'])->name('changeDarkMode');
     Route::post('/user/editPassword',[UserController::class,'changePassword'])->name('changePassword');
     Route::get('/user/{user}/search',[UserController::class,'searchUser'])->name('searchUser');
     Route::get('/user/{user}/profile',[UserController::class,'profile'])->name('profile');

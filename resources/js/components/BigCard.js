@@ -79,13 +79,14 @@ function BigCard(props) {
         <>
         {!props.loadState ?
         <>
-            <div className="border border-slate-500 grid grid-rows-[1fr_max-content_1fr_1fr] grid-cols-3 items-center justify-items-center my-8 pt-8">
+            <div className="border border-slate-500 grid grid-rows-[1fr_max-content_max-content_max-content_max-content_max-content_1fr] grid-cols-3 items-center justify-items-center my-8 pt-8">
                 <img className="w-full h-full max-w-[100px] max-h-[100px] rounded-full" src='https://dummyimage.com/100x100.jpg' alt=''/>
                 <div>
                     <Link className="text-xl underline" to={`/app/profile/${data.id}`}>{data.author?.name} #{data.author?.id}</Link>
                 </div>
                 <div></div>
-                <div className="col-span-full py-8 w-full px-5">
+                <hr className='col-span-full my-4 w-11/12'/>
+                <div className="col-span-full py-5 w-full px-8">
                     <div>
                         {data.content}
                     </div>
@@ -95,6 +96,7 @@ function BigCard(props) {
                             <ImageContainer images={data.images} containerId={data.id}/> :''
                         }
                 </div>
+                <hr className='col-span-full my-4 w-11/12'/>
                 <div className='text-center'>
                     {dayjs(data.created_at).format('HH:mm:ss')}
                 </div>
@@ -102,6 +104,7 @@ function BigCard(props) {
                 <div className='text-center'>
                     {dayjs(data.created_at).format('YYYY-MM-DD')}
                 </div>
+                <hr className='col-span-full my-4 w-11/12'/>
                 <div className='relative h-5/6 w-full text-center'>
                     <div className='relative h-1/2 w-1/2 left-1/4'>
                         <CommentIconSolid/>

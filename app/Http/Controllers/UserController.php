@@ -47,6 +47,13 @@ class UserController extends Controller
         return $this->handleResponse(UserResource::collection($users),'Users fetched with success');
     }
 
+    public function changeDarkMode() {
+        $user = User::find(Auth::id());
+        $user->dark_mode = !$user->dark_mode;
+        $user->save();
+        return $this->handleResponse([],'Dark mode config switched with success');
+    }
+
     public function changeDescription(Request $request) {
         $user = User::find(Auth::id());
         if(!$user) {

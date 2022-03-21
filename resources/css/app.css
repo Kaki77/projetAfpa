@@ -12,3 +12,7 @@ html {
 .brand-logo {
     font-family: 'Pacifico', cursive;
 }
+
+#navbar svg {
+    display: inline;
+}
