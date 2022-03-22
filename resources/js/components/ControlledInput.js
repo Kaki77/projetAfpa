@@ -12,7 +12,7 @@ function ControlledInput(props){
             : ''
             }
             <input 
-                className={'my-3 border-2 border-solid px-2 py-1 rounded focus:outline-none focus:ring transition ' + (typeof(props.errors[0]) == 'undefined' ? 'border-blue-500' : 'border-red-500')}
+                className={'my-3 border-2 border-solid px-2 py-1 rounded-full focus:outline-none focus:ring transition text-black ' + (typeof(props.errors[0]) == 'undefined' ? 'border-blue-500' : 'border-red-500')}
                 type={props.type}
                 name={props.title}
                 placeholder={props.title}

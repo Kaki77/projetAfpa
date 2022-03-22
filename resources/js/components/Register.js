@@ -1,10 +1,11 @@
-import {useState,useEffect} from 'react'
+import {useState,useEffect,useContext} from 'react'
 import {useNavigate} from 'react-router-dom'
 import apiClient from '../axios'
 import Button from './Button'
 import ControlledInput from "./ControlledInput"
+import { Context } from './main'
 
-function Register(props) {
+function Register() {
 
     const navigate = useNavigate()
     const [Name, setName] = useState('')
@@ -15,9 +16,10 @@ function Register(props) {
     const [errorMail, setErrorMail] = useState([])
     const [errorPass, setErrorPass] = useState([])
     const [errorConfirmPass, setErrorConfirmPass] = useState([])
+    const {sessionCheck,setFlash,loading} = useContext(Context)
 
     useEffect(() => {
-        props.sessionCheck()
+        sessionCheck()
         return () => {
             //
         }
@@ -25,7 +27,7 @@ function Register(props) {
     
 
     function register(event){
-        props.loading(true)
+        loading(true)
         apiClient.post('register',{
             name:Name,
             email:Mail,
@@ -38,7 +40,7 @@ function Register(props) {
             setMail('')
             setPassword('')
             setConfirmPassword('')
-            props.flash('You have been registered with success. Now you can log in with your credentials.')
+            setFlash('You have been registered with success. Now you can log in with your credentials.')
             navigate('/',{replace : true})
         })
         .catch(error=>{
@@ -54,7 +56,7 @@ function Register(props) {
             }
         })
         .finally(()=>{
-            props.loading(false)
+            loading(false)
         })
     }
 

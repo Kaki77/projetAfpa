@@ -6,15 +6,18 @@ import CogIconSolid from "../icons/solid/CogIconSolid"
 import {Link as LinkRouter} from 'react-router-dom'
 import {useNavigate} from 'react-router-dom'
 import apiClient from "../axios"
-import Button from "./Button"
+import {useContext} from 'react'
+import {Context} from './main'
 
-function Navbar(props) {
+function Navbar() {
 
   const navigate=useNavigate()
+  const {userID,setUserID} = useContext(Context)
+
   function logout(){
     apiClient.post('api/logout')
     .then(response=>{
-        props.setUserID('')
+        setUserID('')
         console.log(response.data.data)
         navigate('/',{replace:true})
     })
@@ -35,7 +38,7 @@ function Navbar(props) {
           </LinkRouter>
         </button>
         <button className="relative h-full w-full">
-          <LinkRouter to={"/app/profile/"+props.userID}>
+          <LinkRouter to={"/app/profile/"+userID}>
             <UserCircleSolid/>
             <p>Profile</p>
           </LinkRouter>

@@ -1,11 +1,12 @@
-import { useState,useEffect } from 'react'
+import { useState,useEffect,useContext } from 'react'
 import { useNavigate,useSearchParams } from 'react-router-dom'
 import apiClient from '../axios'
 import Button from './Button'
 import ControlledInput from './ControlledInput'
 import Link from './Link'
+import { Context } from './main'
 
-function Login(props) {
+function Login() {
 
     const [searchParams, setSearchParams] = useSearchParams()
     const navigate = useNavigate()
@@ -13,9 +14,10 @@ function Login(props) {
     const [password, setPassword] = useState('')
     const [errorMail, setErrorMail] = useState([])
     const [errorPass, setErrorPass] = useState([])
+    const {sessionCheck,loading,setUserID} = useContext(Context)
 
     useEffect(() => {
-        props.sessionCheck()
+        sessionCheck()
         return () => {
             //
         }
@@ -23,7 +25,7 @@ function Login(props) {
     
 
     function login(event){
-        props.loading(true)
+        loading(true)
         event.preventDefault()
         apiClient.post('login',{
             email:mail,
@@ -32,7 +34,8 @@ function Login(props) {
         .then(response=>{                    
             setMail('')
             setPassword('')
-            props.login(response.data.data)
+            setUserID(response.data.data.id)
+            response.data.data.dark_mode ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark')
             searchParams.get('next') ? navigate(searchParams.get('next'),{replace : true}) : navigate('/app',{replace : true})
         })
         .catch(error=>{
@@ -43,15 +46,21 @@ function Login(props) {
             else if(error.response.status=='401'){
                 setErrorMail([error.response.data.message])
             }
-        })
-        .finally(()=>{
-            props.loading(false)
-        })     
+            loading(false)
+        })  
     }
 
     return (
         <div className="text-center">
-            <h1 className='text-4xl mb-5'>Log in</h1>
+            <h1 className='text-2xl mb-5 px-5 title'>
+                Chat with friends,
+                <br/>
+                Make new friends,
+                <br/>
+                Be aware of the latest news
+                <br/>
+                And much more !
+            </h1>
             <ControlledInput label={true} title="Mail" type="mail" value={mail} setFunction={setMail} errors={errorMail}/>
             <ControlledInput label={true} title="Password" type="password" value={password} setFunction={setPassword} errors={errorPass}/>
             <Button className="w-24 mb-5" onClick={login}>Log in</Button>

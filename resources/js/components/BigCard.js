@@ -4,13 +4,15 @@ import ShareIconOutline from '../icons/outline/ShareIconOutline'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import apiClient from '../axios'
-import {useState,useEffect} from 'react'
+import {useState,useLayoutEffect,useContext} from 'react'
 import {useParams,Link} from 'react-router-dom'
 import LittleCard from './LittleCard'
 import PostArea from './PostArea'
 import ImageContainer from './ImageContainer'
+import UserCircleIconSolid from '../icons/solid/UserCircleIconSolid'
+import { Context } from './main'
 
-function BigCard(props) {
+function BigCard() {
 
     const [data, setData] = useState([])
     const [like, setLike] = useState([])
@@ -19,11 +21,12 @@ function BigCard(props) {
     const [shareCount, setShareCount] = useState('')
     dayjs.extend(relativeTime)
     let {id} = useParams()
+    const {loading,sessionCheck,userID,setFlash,loadState} = useContext(Context)
 
-    useEffect(() => {
-        props.loading(true)
+    useLayoutEffect(() => {
+        loading(true)
         let controller = new AbortController()
-        props.sessionCheck(fetch,controller)
+        sessionCheck(fetch,controller)
         return () => {
             controller.abort()
         }
@@ -35,12 +38,12 @@ function BigCard(props) {
         })
         .then(response=>{
             setData(response.data.data)
-            setLike(response.data.data.likers.find(e=>e.id==props.userID) ? true : false)
+            setLike(response.data.data.likers.find(e=>e.id==userID) ? true : false)
             setLikeCount(response.data.data.likers.length)
-            setShare(response.data.data.sharers.find(e=>e.id==props.userID) ? true : false)
+            setShare(response.data.data.sharers.find(e=>e.id==userID) ? true : false)
             setShareCount(response.data.data.sharers.length)
             console.log(response.data)
-            props.loading(false)
+            loading(false)
         })
     }
 
@@ -71,16 +74,19 @@ function BigCard(props) {
             }
         })
         .catch(error=>{
-            props.setFlash(error.response.data.message)
+            setFlash(error.response.data.message)
         })
     }
 
     return (
         <>
-        {!props.loadState ?
+        {!loadState ?
         <>
-            <div className="border border-slate-500 grid grid-rows-[1fr_max-content_max-content_max-content_max-content_max-content_1fr] grid-cols-3 items-center justify-items-center my-8 pt-8">
-                <img className="w-full h-full max-w-[100px] max-h-[100px] rounded-full" src='https://dummyimage.com/100x100.jpg' alt=''/>
+            <div className="grid grid-rows-[1fr_max-content_max-content_max-content_max-content_max-content_1fr] grid-cols-3 items-center justify-items-center my-8 pt-8">
+                {data.author?.avatar ? 
+                    <img className="mx-auto w-full h-full max-w-[100px] max-h-[100px] rounded-full" src={data.author?.avatar} alt=''/>
+                    : <UserCircleIconSolid className="max-h-[100px] w-full"/>
+                }
                 <div>
                     <Link className="text-xl underline" to={`/app/profile/${data.id}`}>{data.author?.name} #{data.author?.id}</Link>
                 </div>

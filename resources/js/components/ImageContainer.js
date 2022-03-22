@@ -42,7 +42,7 @@ function ImageContainer(props) {
     return (
         <div className="relative" id={'carousel'+props.containerId}>
             {props.images.map((image,index)=>
-                <img key={index} src={image.url} className="w-full h-[350px]"/>
+                <img key={index} src={image.url} className="w-full h-[250px]"/>
             )}
 
             {props.images.length > 1 ?

@@ -2,7 +2,7 @@ import {UsersIcon} from '@heroicons/react/solid'
 
 function FriendsSolid() {
   return (
-    <UsersIcon className='h-4/6 w-4/6'/>
+    <UsersIcon className='h-4/6'/>
   )
 }
 

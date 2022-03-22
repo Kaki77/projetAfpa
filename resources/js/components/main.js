@@ -10,9 +10,14 @@ import ResetPasswordMail from './ResetPasswordMail'
 import ResetPasswordForm from './ResetPasswordForm'
 import Header from './Header'
 
-export const DarkContext = createContext({
-    darkMode : null,
-    setDarkMode : {}
+export const Context = createContext({
+    sessionCheck : {},
+    loading : {},
+    loadState : null,
+    flash : null,
+    setFlash : {},
+    userID : null,
+    setUserID : {},
 })
 
 function App(){
@@ -44,19 +49,29 @@ function App(){
         })
     }   
 
+    const contextValue = {
+        sessionCheck : sessionCheck,
+        loading : setLoading,
+        loadState : loading,
+        flash : flash,
+        setFlash , setFlash,
+        userID : id,
+        setUserID : setId
+    }
+
     return(
-        <>
+        <Context.Provider value={contextValue}>
             {loading ? <Spinner/> : ''}
-            {flash ? <Flash setFlash={setFlash}>{flash}</Flash> : ''}
+            {flash ? <Flash/> : ''}
             <Header/>
             <Routes>
-                <Route path="/" element={<Login loading={setLoading} login={setId} sessionCheck={sessionCheck} flash={flash} setFlash={setFlash}/>}/>
-                <Route path="/register" element={<Register loading={setLoading} id={id} sessionCheck={sessionCheck} flash={flash} setFlash={setFlash}/>}/>
-                <Route path="/reset-password-mail" element={<ResetPasswordMail loading={setLoading} id={id} sessionCheck={sessionCheck} flash={flash} setFlash={setFlash}/>}/>
-                <Route path="/reset-password-form/:token" element={<ResetPasswordForm loading={setLoading} id={id} sessionCheck={sessionCheck} flash={flash} setFlash={setFlash}/>}/>
-                <Route path="/app/*" element={<Home loading={setLoading} loadState={loading} userID={id} setUserID={setId} sessionCheck={sessionCheck} flash={flash} setFlash={setFlash}/>}/>
+                <Route path="/" element={<Login/>}/>
+                <Route path="/register" element={<Register/>}/>
+                <Route path="/reset-password-mail" element={<ResetPasswordMail/>}/>
+                <Route path="/reset-password-form/:token" element={<ResetPasswordForm/>}/>
+                <Route path="/app/*" element={<Home/>}/>
             </Routes>
-        </>
+        </Context.Provider>
     )   
 }
 

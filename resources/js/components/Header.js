@@ -34,9 +34,9 @@ function Header() {
             </div>
 
             <div className='h-[70px] w-[70px]'>
-                <button onClick={()=>toggleDarkMode()}>
+                <div onClick={()=>toggleDarkMode()}>
                     {darkMode ? <SunIconSolid/> : <MoonIconSolid/>}
-                </button>
+                </div>
             </div>
 
         </div>

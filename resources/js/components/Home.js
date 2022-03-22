@@ -6,21 +6,21 @@ import FollowFeed from "./FollowFeed"
 import BigCard from "./BigCard"
 import SettingsFeed from "./SettingsFeed"
 
-function Home(props) {
-    
+function Home() {
+
     return (
         <>
             <div className="mx-3">
                 <Routes>
-                        <Route path="/" element={<NewsFeed loading={props.loading} sessionCheck={props.sessionCheck} loadState={props.loadState} userID={props.userID} setFlash={props.setFlash}/>}/>
-                        <Route path="/friends" element={<FollowFeed loading={props.loading} sessionCheck={props.sessionCheck} loadState={props.loadState} setFlash={props.setFlash}/>}/>
-                        <Route path="/profile/settings" element={<SettingsFeed loading={props.loading} sessionCheck={props.sessionCheck} loadState={props.loadState} userID={props.userID} setFlash={props.setFlash}/>}/>
-                        <Route path="/profile/:id" element={<ProfileFeed loading={props.loading} sessionCheck={props.sessionCheck} userID={props.userID} loadState={props.loadState} setFlash={props.setFlash}/>}/>
-                        <Route path="/post/:id" element={<BigCard loading={props.loading} sessionCheck={props.sessionCheck} userID={props.userID} loadState={props.loadState} setFlash={props.setFlash}/>}/>
+                        <Route path="/" element={<NewsFeed/>}/>
+                        <Route path="/friends" element={<FollowFeed/>}/>
+                        <Route path="/profile/settings" element={<SettingsFeed/>}/>
+                        <Route path="/profile/:id" element={<ProfileFeed/>}/>
+                        <Route path="/post/:id" element={<BigCard/>}/>
                 </Routes>
             </div>
             <div className="mt-[120px]">
-                <Navbar userID={props.userID} setUserID={props.setUserID}/>
+                <Navbar/>
             </div>
         </>
     )

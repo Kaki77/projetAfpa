@@ -1,10 +1,11 @@
-import {useState,useEffect} from 'react'
+import {useState,useEffect,useContext} from 'react'
 import {useNavigate,useParams} from 'react-router-dom'
 import apiClient from '../axios'
 import Button from './Button'
 import ControlledInput from './ControlledInput'
+import { Context } from './main'
 
-function PasswordResetForm(props) {
+function PasswordResetForm() {
 
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
@@ -12,9 +13,10 @@ function PasswordResetForm(props) {
     const [errorConfirmPass, setErrorConfirmPass] = useState([])
     const navigate = useNavigate()
     const {token} = useParams()
+    const {sessionCheck,loading,setFlash} = useContext(Context)
 
     useEffect(() => {
-        props.sessionCheck()
+        sessionCheck()
         tokenCheck(token)
         return () => {
             //
@@ -26,13 +28,13 @@ function PasswordResetForm(props) {
             token : token,
         })
         .catch(error=>{
-            props.setFlash('Your password reset request is invalid or expired')
+            setFlash('Your password reset request is invalid or expired')
             navigate('/')
         })
     }
 
     function resetPassword() {
-        props.loading(true)
+        loading(true)
         apiClient.post('/password-reset',{
             token : token,
             password : password,
@@ -50,7 +52,7 @@ function PasswordResetForm(props) {
             error.response.data.message.confirm_password ? setErrorConfirmPass(error.response.data.message.confirm_password) : setErrorConfirmPass([])
         })
         .finally(()=>{
-            props.loading(false)
+            loading(false)
         })
     }
 

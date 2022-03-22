@@ -4,11 +4,13 @@ import ShareIconOutline from '../icons/outline/ShareIconOutline'
 import Reply from './Reply'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import {useNavigate} from 'react-router-dom'
+import updateLocale from 'dayjs/plugin/updateLocale'
+import {Link, useNavigate} from 'react-router-dom'
 import {useState,useEffect} from 'react'
 import apiClient from '../axios'
 import PostArea from './PostArea'
 import ImageContainer from './ImageContainer'
+import UserCircleIconSolid from '../icons/solid/UserCircleIconSolid'
 
 function LittleCard(props) {
 
@@ -44,21 +46,31 @@ function LittleCard(props) {
         }
     }, [])
     
+    function goToBigCard(event) {
+        let regex = new RegExp("carousel[0-9]?")
+        !regex.test(event.target.parentNode.id) && event.target.tagName !== 'A' ? navigate('/app/post/'+props.post.id) : ''
+    }
 
     return (
         <>
         {props.showReplies ? <hr className='my-8 w-full'/> : ''}
-        <div className="border border-slate-500 rounded-lg grid grid-rows-[1fr_max-content_max-content_max-content_1fr] grid-cols-3 items-center justify-items-center pt-8 ">
-            <img className="w-full h-full max-w-[48px] max-h-[48px] rounded-full" src={props.post.author?.avatar ? props.post.author?.avatar : 'https://dummyimage.com/100x100.jpg'} alt=''/>
+        <div className={"grid grid-rows-[1fr_max-content_max-content_max-content_1fr] grid-cols-3 items-center justify-items-center pt-8"+(props.className ? ' '+props.className : '')} onClick={(event)=>goToBigCard(event)}>
+            {props.post.author?.avatar ? 
+                <img className="mx-auto w-full h-full max-w-[100px] max-h-[100px] rounded-full" src={props.post.author?.avatar} alt=''/>
+                : <UserCircleIconSolid className="max-h-[100px] w-full"/>
+            }
             <div>
-                {props.post.author.name} #{props.post.author.id}
+                {props.post.author?.id != props.authorId ?
+                    <Link to={`/app/profile/${props.post.author?.id}`} className="text-xl underline">{props.post.author.name} #{props.post.author.id}</Link>
+                    : <div>{props.post.author.name} #{props.post.author.id}</div>
+                }
             </div>
             <div>
                 {dayjs(props.post.created_at).fromNow()}
             </div>
             <hr className='col-span-full my-4 w-11/12'/>
             <div className="col-span-full py-5 w-full px-8">
-                <div onClick={()=>navigate('/app/post/'+props.post.id)}>
+                <div>
                     {props.post.content}
                     <br/>
                     <br/>

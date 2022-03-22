@@ -1,8 +1,8 @@
 import {UserCircleIcon} from '@heroicons/react/solid'
 
-function UserCircleIconSolid() {
+function UserCircleIconSolid(props) {
   return (
-    <UserCircleIcon className="h-4/6 w-4/6"/>
+    <UserCircleIcon className={"h-4/6" + (props.className ? ' '+props.className : '')}/>
   )
 
 }

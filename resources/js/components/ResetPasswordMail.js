@@ -1,34 +1,36 @@
-import {useState,useEffect} from 'react'
+import {useState,useEffect,useContext} from 'react'
 import { useNavigate } from 'react-router-dom'
 import ControlledInput from './ControlledInput'
 import apiClient from '../axios'
 import Button from './Button'
+import { Context } from './main'
 
-function ResetPasswordMail(props) {
+function ResetPasswordMail() {
     
     const navigate = useNavigate()
     const [mail, setMail] = useState('')
     const [errorMail, setErrorMail] = useState([])
-    
+    const {sessionCheck,setFlash,loading} = useContext(Context)
+
     useEffect(() => {
-        props.sessionCheck()
+        sessionCheck()
         return () => {
             //
         }
     }, [])
 
     function sendResetPasswordMail() {
-        props.loading(true)
+        loading(true)
         apiClient.post('/mail-reset-password',{
             mail:mail,
         })
         .then(response=>{
             console.log(response.data)
-            props.setFlash(response.data.message)
+            setFlash(response.data.message)
             navigate('/',{replace : true})
         })
         .finally(()=>{
-            props.loading(false)
+            loading(false)
         })
     }
 
