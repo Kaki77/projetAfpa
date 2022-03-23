@@ -9,6 +9,7 @@ import Flash from './Flash'
 import ResetPasswordMail from './ResetPasswordMail'
 import ResetPasswordForm from './ResetPasswordForm'
 import Header from './Header'
+import Error404 from './404'
 
 export const Context = createContext({
     sessionCheck : {},
@@ -19,6 +20,8 @@ export const Context = createContext({
     userID : null,
     setUserID : {},
 })
+
+const noAuthList = ['/','/register','/reset-password-mail','/reset-password-form/*']
 
 function App(){
 
@@ -32,7 +35,7 @@ function App(){
         apiClient.post('/sessionCheck')
         .then(response=>{
             setId(response.data.data)
-            if(location.pathname == '/' || location.pathname == '/register' || location.pathname == '/reset-password-mail' || location.pathname == '/reset-password-form') {
+            if(noAuthList.find(route=>route.match(location.pathname))) {
                 navigate('/app',{replace:true});
             }
             else {
@@ -43,7 +46,7 @@ function App(){
         })
         .catch(error=>{
             setLoading(false)
-            if(location.pathname !== '/' && location.pathname !== '/register' && location.pathname !== '/reset-password-mail' && !location.pathname.match('/reset-password-form/*')) {
+            if(!noAuthList.find(route=>route.match(location.pathname))) {
                 navigate(`/?next=${location.pathname}`,{replace:true});
             }
         })
@@ -70,6 +73,7 @@ function App(){
                 <Route path="/reset-password-mail" element={<ResetPasswordMail/>}/>
                 <Route path="/reset-password-form/:token" element={<ResetPasswordForm/>}/>
                 <Route path="/app/*" element={<Home/>}/>
+                <Route path="*" element={<Error404/>}/>
             </Routes>
         </Context.Provider>
     )   

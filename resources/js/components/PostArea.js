@@ -18,7 +18,7 @@ function PostArea(props) {
         let formData = new FormData()
         formData.append('content',post)
         for(let i =0; i< fileInput.current.files.length; i++) {
-            formData.append(`image[]`, fileInput.current.files[i]);
+            formData.append(`image[]`, fileInput.current.files[i])
         }
         apiClient.post(props.url,formData,{
             headers: {
@@ -30,13 +30,23 @@ function PostArea(props) {
             navigate(0)
         })
         .catch(error=>{
-            console.log(error);
-            error.response.data.message.content ? setErrorPost(error.response.data.message.content) : setErrorPost([])
+            console.log(error)
+            const errors = error.response.data.message
+            if(errors) {
+                for(const [key,error] of Object.entries(errors)){
+                    error.forEach(err=>{
+                        setErrorPost((state)=>[...state,err])
+                    })
+                }            
+            }
+            else {
+                setErrorPost([])
+            }
         })
     }
 
     return (
-        <div className="my-8">
+        <div className="my-8 lg:px-14">
             {props.title ?
                 <div className="w-full text-center">{props.title}</div>
                 :'' 

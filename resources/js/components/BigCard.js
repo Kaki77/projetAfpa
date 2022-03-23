@@ -140,7 +140,7 @@ function BigCard() {
             {data.comments?.length ?
             <>
                 {data.comments?.map((comment,index)=>
-                    <div className='defautl:my-8 last:mt-8 last:pb-8'><LittleCard key={index} post={comment} showReplies={true} userID={props.userID} /></div>
+                    <div className='defautl:my-8 last:mt-8 last:pb-8'><LittleCard key={index} post={comment} showReplies={true} userID={userID} /></div>
                 )}
             </>
             : ''

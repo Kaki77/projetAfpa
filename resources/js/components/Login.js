@@ -14,16 +14,16 @@ function Login() {
     const [password, setPassword] = useState('')
     const [errorMail, setErrorMail] = useState([])
     const [errorPass, setErrorPass] = useState([])
-    const {sessionCheck,loading,setUserID} = useContext(Context)
+    const {sessionCheck,loading,setUserID,setFlash} = useContext(Context)
 
     useEffect(() => {
         sessionCheck()
+        searchParams.has('next') ? setFlash("You need to be authenticated to access this page") : ''
         return () => {
             //
         }
     }, [])
     
-
     function login(event){
         loading(true)
         event.preventDefault()

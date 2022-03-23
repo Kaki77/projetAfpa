@@ -157,6 +157,16 @@ class PostController extends Controller
         $comment->content = $request->content;
         $comment->author()->associate(Auth::id());
         $comment->save();
+        if($request->image){
+            foreach($request->image as $key=>$file) {
+                $imageName=time().$key.'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('uploads'),$imageName);
+                $image = new Image();
+                $image->url = env('UPLOAD_PATH').$imageName;
+                $image->save();
+                $comment->images()->attach($image);
+            }
+        }
         $post = Post::find($id);
         $post->comments()->attach($comment);
         return $this->handleResponse($comment,'Comment has been posted with success');

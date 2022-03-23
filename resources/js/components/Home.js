@@ -10,7 +10,7 @@ function Home() {
 
     return (
         <>
-            <div className="mx-3">
+            <div className="mx-3 lg:px-32 sm:px-20">
                 <Routes>
                         <Route path="/" element={<NewsFeed/>}/>
                         <Route path="/friends" element={<FollowFeed/>}/>

@@ -54,12 +54,12 @@ function LittleCard(props) {
     return (
         <>
         {props.showReplies ? <hr className='my-8 w-full'/> : ''}
-        <div className={"grid grid-rows-[1fr_max-content_max-content_max-content_1fr] grid-cols-3 items-center justify-items-center pt-8"+(props.className ? ' '+props.className : '')} onClick={(event)=>goToBigCard(event)}>
+        <div className={"grid grid-rows-[1fr_max-content_max-content_max-content_1fr] grid-cols-3 items-center justify-items-center lg:px-12 md:px-8 pt-8"+(props.className ? ' '+props.className : '')} onClick={(event)=>goToBigCard(event)}>
             {props.post.author?.avatar ? 
                 <img className="mx-auto w-full h-full max-w-[100px] max-h-[100px] rounded-full" src={props.post.author?.avatar} alt=''/>
                 : <UserCircleIconSolid className="max-h-[100px] w-full"/>
             }
-            <div>
+            <div className='text-ellipsis max-w-full overflow-hidden'>
                 {props.post.author?.id != props.authorId ?
                     <Link to={`/app/profile/${props.post.author?.id}`} className="text-xl underline">{props.post.author.name} #{props.post.author.id}</Link>
                     : <div>{props.post.author.name} #{props.post.author.id}</div>
@@ -85,16 +85,20 @@ function LittleCard(props) {
                     <CommentIconSolid/>
                 </div>
                 <div>
-                 {props.post.hasOwnProperty('comments') ? props.post.comments.length : props.post.replies.length }
+                    {props.post.hasOwnProperty('comments') ? props.post.comments.length : props.post.replies.length }
                 </div>
             </div>
             <div className='relative h-5/6 w-full text-center'>
-                <div className='relative h-1/2 w-1/2 left-1/4'>
-                    <ShareIconOutline state={share}/>
-                </div>
-                <div>
-                    {shareCount}
-                </div>
+                {props.post.hasOwnProperty('comments') ? 
+                    <>
+                        <div className='relative h-1/2 w-1/2 left-1/4'>
+                            <ShareIconOutline state={share}/>
+                        </div>
+                        <div>
+                            {shareCount}
+                        </div>
+                    </> :''
+                }
             </div>
             <div className='relative h-5/6 w-full text-center'>
                 <div className='relative h-1/2 w-1/2 left-1/4'>

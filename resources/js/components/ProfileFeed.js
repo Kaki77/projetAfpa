@@ -71,7 +71,6 @@ function ProfileFeed() {
             console.log(response.data)
             setFollowCount(response.data.data == 'true' ? followCount+1 : followCount-1)
             setFlash(response.data.message)
-            setData({...data,user_is_following : response.data.data})
         })
     }
 
