@@ -94,11 +94,7 @@ class PostController extends Controller
             foreach($shared_post as $post) {
                 $sharer = User::find($key);
                 $post->sharer = $sharer;
-                foreach($sharer->sharedPost as $share) {
-                    if($share->id == $post->id) {
-                        $post->share_date = $share->sharedPost->created_at;
-                    }
-                }
+                $post->share_date = $post->sharedPost->created_at;
                 $share_collection->push($post);
             }
         }
@@ -171,5 +167,4 @@ class PostController extends Controller
         $post->comments()->attach($comment);
         return $this->handleResponse($comment,'Comment has been posted with success');
     }
-
 }

@@ -40,6 +40,16 @@ class CommentController extends Controller
         $reply->content = $request->content;
         $reply->author()->associate(Auth::id());
         $reply->save();
+        if($request->image){
+            foreach($request->image as $key=>$file) {
+                $imageName=time().$key.'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('uploads'),$imageName);
+                $image = new Image();
+                $image->url = env('UPLOAD_PATH').$imageName;
+                $image->save();
+                $reply->images()->attach($image);
+            }
+        }
         $comment = Comment::find($id);
         $comment->replies()->attach($reply);
         return $this->handleResponse($reply,'Reply has been posted with success');
